@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@300;400;500&family=Poppins:wght@200;300;400&family=Roboto&display=swap');
+
+body{
+  background-color: #1A1C1D;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(255, 255, 255);
+  background-color: #BCFF01;
+  border-radius: 3px;
+  cursor: pointer;
+}
