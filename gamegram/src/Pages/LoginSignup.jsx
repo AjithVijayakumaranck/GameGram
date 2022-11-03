@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Navigate,useNavigate } from 'react-router-dom'
 import NavbarLogin from '../Components/NavbarLogin'
 import Signup from '../Components/signUp'
 import './LoginSignUP.css'
 
 const LoginSignup = () => {
+   const Nav = useNavigate()
+  const token = localStorage.getItem("logged")
+
+  useEffect(() => {
+    if(token){
+      console.log('token is here');
+      Nav('/home')
+    }else{
+      Nav('/createaccount')
+    }
+  }, []);
   return (
     <div className='h-[100vh]'>
        <div className='h-full'  id="backDrop">

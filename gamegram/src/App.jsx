@@ -1,12 +1,18 @@
+import { FileUploadProvider } from "./Contexts/fFileUploadContext";
+import { FileUpProvider } from "./Contexts/FileUploadContext";
 import MainRoutes from "./Routes";
 
 
-const  App=()=> {
+const App = () => {
   return (
-<div>
-<MainRoutes />
-  
-</div>
+    <div>
+      <FileUploadProvider>
+        <FileUpProvider>
+          <MainRoutes />
+        </FileUpProvider>
+      </FileUploadProvider>
+
+    </div>
   )
 }
 

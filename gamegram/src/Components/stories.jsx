@@ -13,48 +13,13 @@ const Stories = () => {
 
     }
   return (
-    <div className='storiesCardWrapper py-5 mt-5 relative flex items-center bg-contrast rounded-xl px-2'>
+    <div className='storiesCardWrapper md:py-5 py-2  mt-5 relative flex items-center bg-contrast rounded-xl px-2'>
         <ArrowSmallLeftIcon className='h-5 text-white hover:text-main ' onClick={slideLeft}/>
        <div id="slider" className='w-full h-full overflow-x-scroll whitespace-nowrap scroll scroll-smooth scrollbar-hide'>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
+            <div className='bg-main  w-[3rem] h-[3rem] md:w-[6rem] md:h-[6rem] rounded-full inline-block  mx-5 px-2 py-2 '>
+            <div className='bg-secondary w-[2rem] h-[2rem] md:w-[5rem] md:h-[5rem] rounded-full '></div>
             </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
-            <div className='bg-main w-[6rem] h-[6rem] rounded-full inline-block  mx-5 px-2 py-2'>
-            <div className='bg-secondary w-[5rem] h-[5rem] rounded-full '></div>
-            </div>
+          
        </div>
 <ArrowSmallRightIcon className='h-5 text-white hover:text-main' onClick={slideRight}/>
     </div>

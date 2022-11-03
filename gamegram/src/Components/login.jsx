@@ -24,6 +24,7 @@ const Login = () => {
        if (Response.data.status){
         const { token } = Response.data
         localStorage.setItem( "token", "Bearer " + token);
+        localStorage.setItem('logged',true)
          navigate('/home')
        }else{
          setInvaliduser(true)
