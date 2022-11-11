@@ -7,6 +7,8 @@ const { mailer } = require("../mailer/mailer")
 const multer = require('multer')
 const { Post } = require('../modals/postmodal')
 const fs = require('fs');
+const {verifyOtp} = require('../modals/otpModal')
+
 const { log } = require("console")
 const mongoose= require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
@@ -14,11 +16,11 @@ const ObjectId = mongoose.Types.ObjectId
 
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log("stage 1");
+       
         cb(null, './StaticFiles/postImages')
     },
     filename: (req, file, cb) => {
-        console.log(file);
+
         cb(null, Date.now() + '--' + file.originalname)
     }
 })
@@ -29,22 +31,20 @@ router.post("/testmailer", (req, res) => {
     mailer()
 })
 
-const verifyToken = (req, res, next) => {
 
-    console.log(req.headers);
+
+const verifyToken = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1]
     if (!token) {
         res.send("We need a token, please give it to us next time");
     } else {
-        console.log(token, "loooo");
-        console.log("code in side the else");
+
         jwt.verify(token, process.env.JWTPRIVATEKEY, (err, decoded) => {
             if (err) {
-                console.log("token not valid");
-                console.log(err, "loo");
+             
                 res.status(401).json({ auth: false, message: "you are failed to authenticate" });
             } else {
-                console.log("token valied");
+          
                 req.userId = decoded.id;
                 next();
             }
@@ -53,81 +53,41 @@ const verifyToken = (req, res, next) => {
 }
 
 router.post('/handlelike/:id/:holderId',(req,res,next)=>{
-    console.log(req.params.holderId);
+
     postId=req.params.id
     holderId=req.params.holderId
     // holderId=ObjectId(req.params.holderId)
     holdId=req.params.holderId
-    console.log(holderId);
-    // console.log(holdId);
-    console.log(typeof holderId,"type");
+
     Post.findOne({_id:postId, likes: { 
         $elemMatch: { 
             $eq:holderId
         }
     }}).then((response)=>{
-        console.log(response,'hoyya');
        if(response===null){
-        console.log('code is here null');
         Post.updateOne({_id:postId},{
             $push:{
                   likes:ObjectId(holderId)
                   }
         }).then((response)=>{
-            console.log(response);
             res.status(200).json({message:"hello siri"})
         }).catch((err)=>{console.log(err,"error")})
         res.status(500)
        }else{
-        console.log('code is not here');
         Post.updateOne({_id:response._id},{
             $pull:{
                   likes:ObjectId(holderId)
                   }
         }).then((response)=>{
             res.status(200).json({message:"hello google"})
-            console.log(response);
         }).catch((err)=>{console.log(err,"error");})
         res.status(400)
        }
        
     }).catch((response)=>{
         res.status(500)
-        console.log(response,"err");
     })
 })
-    
-
-
-
-// router.post('/handlelike/:id/:holderId',(req,res,next)=>{
-//     console.log(req.params.holderId);
-//     postId=req.params.id
-//     holderId=req.params.holderId
-//     Post.findOne({_id:postId}).then((response)=>{
-//         const likeArray= response.likes
-//         console.log(likeArray);
-//             if(ObjectId(holderId) in likeArray){
-//                 Post.updateOne({
-//                     $pop:{
-//                         likes:holderId
-//                     }
-//                 }).then((response)=>{
-//                     console.log(response);
-//                 })
-//             }else{
-//                 Post.updateOne({
-//                     $push:{
-//                         likes:holderId
-//                     }
-//                 }).then((response)=>{
-//                     console.log(response);
-//                 })
-//             }
-//         })
-       
-//         console.log(response,"hello");
-//     })
 
 
 router.post('/managecomments',(req,res,next)=>{
@@ -145,8 +105,7 @@ router.get('/recieveFile', async(req, res, next) => {
 // const following =  User.find()
 // copnst  customarray = [ ..folloers, ...following]
 // holder._id: { in : customarray}
-  Post.find().populate('holder').then((response)=>{
-   console.log(response,"populate");
+  Post.find().populate('holder').sort({createdAt:-1}).then((response)=>{
      const posts=response
       const convertedPosts = [];
     
@@ -164,7 +123,6 @@ router.get('/recieveFile', async(req, res, next) => {
 })
 
 router.post('/signup', async (req, res, next) => {
-    console.log(req.body);
     const saltPassword = await bcrypt.genSalt(10)
     const securePassword = await bcrypt.hash(req.body.password, saltPassword)
     const signedUpUser = await new User({
@@ -177,33 +135,66 @@ router.post('/signup', async (req, res, next) => {
 
 
     signedUpUser.save().then((response) => {
+        const sendOtp = () =>{
+            otp = Math.random();
+            otp = otp * 10000;
+            otp = parseInt(otp)
+            mailer(otp,response.email,response._id).then((response)=>{
+                console.log(response);
+                return(response)
+            })
+        }
+    
+            sendOtp()
+         console.log(sendOtp(),"hooo");
         res.status(200).json({ msg: "Successfully signed up" })
     })
 })
-router.post('/sign', (req, res) => {
-    res.send("hellp")
+router.post('/verifyOtp',async (req, res) => {
+    console.log(req.body.mailid,"body");
+    const oneTimePass = req.body.otp.join("")
+   const user = await User.findOne({email:req.body.mailid})
+   console.log(user);
+   if(user.verified){
+    res.status(500).send({message:"email id already verified"}) 
+   }else{
+    // console.log(userId);
+    // console.log(user);
+    verifyOtp.findOne({userId:user._id}).then((response)=>{
+        console.log(response);
+        bcrypt.compare(oneTimePass, response.otp).then((response)=>{
+           User.updateOne({_id:user._id},{
+               $set:{
+                   verified:true
+               }
+            }).then(()=>{
+                res.status(200).json({msg:"otp otp verified successfully"})
+            }) 
+        })
+    })
+    
+   }
 })
 
 router.post("/uploadfile", upload.single('file'), async (req, res) => {
     console.log(req.body);
+    
     let HolderId;
     const token = req.body.userToken.split(' ')[1]
     console.log(token);
- const auth=()=>{
-    jwt.verify(token, process.env.JWTPRIVATEKEY, (err, decoded) => {
-        if (err) {
-            console.log("token not valid");
-            console.log(err, "loo");
-            res.status(401).json({ auth: false, message: "you are failed to authenticate" });
-        } else {
-            console.log("token valied");
-            console.log(decoded);
-           HolderId = decoded.userId;
-           console.log(HolderId,"booooo");
-          return;
-        }
-    });
- }
+    const auth=()=>{
+        jwt.verify(token, process.env.JWTPRIVATEKEY, (err, decoded) => {
+            if (err) {
+      
+                res.status(401).json({ auth: false, message: "you are failed to authenticate" });
+            } else {
+        
+               HolderId = decoded.userId;
+              return;
+            }
+        });
+     }
+
  auth()
 
     const postTemplate = await new Post({
@@ -211,28 +202,32 @@ router.post("/uploadfile", upload.single('file'), async (req, res) => {
         Post: req.file.filename,
 holder:HolderId
     })
-console.log(postTemplate);
+
     postTemplate.save().then((response) => {
         console.log(response, "hello response");
-        res.send(200).json({msg:"success"})
+        User.updateOne({_id:HolderId},{
+            $push:{
+                post:response._id
+            }
+        }).catch((error)=>{
+            console.log(error);
+        })
+        res.status(200).json({msg:"success"})
     }).catch((error) => {
 console.log(error);
     })
 
-    // console.log(req.body);
 })
 
 
 
 router.post("/login", async (req, res) => {
-    console.log("hello google", req.body.userName);
-    const user = await User.findOne({ email: req.body.userName })
+    const user = await User.findOne({ email: req.body.userName,verified:true})
     if (user) {
-        console.log("here is the code");
         const validPassword = await bcrypt.compare(req.body.password, user.password).then()
         if (validPassword) {
             req.session.userSession = user
-            console.log(req.session.userSession._id, "hoooo");
+
             const token = jwt.sign({
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -252,6 +247,46 @@ router.post("/login", async (req, res) => {
         res.json({ status: false })
     }
 
+})
+
+
+router.get('/getuserprofile/:id',(req,res,next)=>{
+    const userId= req.params.id;
+     User.findOne({_id:userId}).populate("post").then((response)=>{
+      console.log(response);
+      const finalPost=response
+      const post = response.post
+      const convertedPost = []
+
+    post.forEach((eachPost)=>{
+        convertedPost.push(
+            {
+                ...eachPost._doc,
+                post: fs.readFileSync(`./StaticFiles/postImages/${eachPost.Post}`, 'base64')
+            }
+        ) 
+
+    })
+    
+    console.log("---------------------------------------------------------------");
+
+    console.log(convertedPost,"convert");
+    finalPost.converted=convertedPost
+    console.log(finalPost,"converted Posts");
+        res.status(200).json({response,convertedPost})
+     }).catch((err)=>{
+         console.log(err);
+        res.status(404).json({msg:'user not found'})
+     })
+})
+
+router.post('/managecomment',(req,res,next)=>{
+    console.log(req.body);
+const {index,manageComment}= req.body
+console.log(index);
+console.log(manageComment);
+    const currentComment = manageComment.index
+    console.log(currentComment);
 })
 
 

@@ -6,6 +6,8 @@ import { FileUploadContext } from '../Contexts/fFileUploadContext';
 
 const Navbar = () => {
   
+  
+
   const {fileUploa} = useContext(FileUploadContext)
   const [showModal,setShowModal]=fileUploa
   const ModalHandler=()=>{
@@ -13,7 +15,7 @@ const Navbar = () => {
     setShowModal(true)
   }
   return (
-    <div className='containerDiv fixed top-0 right-0 w-100 left-0 z-[9]'>
+    <div className='containerDiv relative top-0 right-0 w-100 left-0 z-[9]'>
         <div className='h-[5rem] bg-secondary text-white px-3 sm:px-[8rem] flex justify-between'>
          <div className=' pt-5'>
          <img src={logo} alt="" width="250px"/>

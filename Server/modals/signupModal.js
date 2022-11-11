@@ -17,10 +17,18 @@ const signUpTemplate =  new mongoose.Schema({
     dateOfBirth:{
         type:String
     },
+    verified:{
+        type:Boolean,
+        default:false
+    },
     password:{
         type:String,
         required:true
-    },    
+    },
+    post:[{
+        type:ObjectId,
+        ref:'Posts'
+    }],   
 },{ timestamps: true })
 
 const User=mongoose.model('users',signUpTemplate)

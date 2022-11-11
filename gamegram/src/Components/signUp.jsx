@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const Signup = () => {
   const  navigate=useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signup, setSignUp] = useState({
+
         firstName: "",
         userName: "",
         email: "",
@@ -21,9 +22,10 @@ const Signup = () => {
     }
 
     const signupHandler = (e) => {
-        e.preventDefault()
+        // e.preventDefault()
         axios.post('http://localhost:5000/signup', signup).then((Response) => {
-            console.log("response is here");
+            console.log(Response,"response is here");
+            navigate(`/verificationotp/${signup.email}`)
         })
     }
 

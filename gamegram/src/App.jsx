@@ -1,3 +1,4 @@
+import FileUpload from "./Components/FileUpload";
 import { FileUploadProvider } from "./Contexts/fFileUploadContext";
 import { FileUpProvider } from "./Contexts/FileUploadContext";
 import MainRoutes from "./Routes";
@@ -8,6 +9,7 @@ const App = () => {
     <div>
       <FileUploadProvider>
         <FileUpProvider>
+          <FileUpload/>
           <MainRoutes />
         </FileUpProvider>
       </FileUploadProvider>

@@ -19,9 +19,8 @@ const Home = () => {
 
   useEffect(() => {
     axios.get("http://localhost:5000/recieveFile").then((response)=>{
-      console.log(response.data);
+      console.log(response.data,"userData");
       setPost([...response.data.post])
-
     }).catch((error)=>{
 
     })
@@ -34,7 +33,7 @@ const Home = () => {
     <div className='relative top-0 right-0 left-0'>
       <Navbar className=""/>
       <div className='absolute px-3 md:px-[16rem] pt-[5rem]  top-0 left-0 right-0  z-[1]'>
-        {showModal && <FileUpload  className="absolute z-10"/>}
+        {showModal && <FileUpload setPost={setPost} post={posts}  className="absolute z-10"/>}
         <Stories />
         <Card post={posts} setPost={setPost}/>
       </div>
