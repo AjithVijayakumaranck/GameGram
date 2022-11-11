@@ -3,9 +3,14 @@ import { ChatBubbleOvalLeftIcon, } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PaperAirplaneIcon, CheckIcon, HeartIcon } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import mongoose from 'mongoose'
+const ObjectId = mongoose.Types.ObjectId
 
 const Card = ({ post, setPost }) => {
   console.log(post, "post is here");
+
+  const navigate = useNavigate()
 
   const [manageComment, setMannegeComment] = useState({})
 
@@ -27,20 +32,37 @@ const Card = ({ post, setPost }) => {
   console.log(post);
   const [comment, setComment] = useState(false)
   return post.map((eachPost, index) => {
-    index = index.toString()
-    console.log(typeof (index))
     const { post, Post, caption, holder, likes, _id } = eachPost;
+    const userId=localStorage.getItem('user')
+    let like = likes.includes(userId);
+
+ 
+
+   
+    // index = index.toString()
+    console.log(typeof (index))
     console.log(likes);
     const ext = Post.split('.')[1];
 
 
     const commentHandler = (postId, holderId,index) => {
       console.log(typeof (index));
-      console.log(index, "index comm");
-      console.log(manageComment.index, 'index');
-      // console.log(currentComment,"comm"); 
-    }
+      console.log(index , "index comm");
+      console.log(manageComment,"comm"); 
+      console.log(index);
+      console.log(Object.entries(manageComment)[0]);
+      axios.post('http://localhost:5000/managecomment',{manageComment,index}).then((response)=>{
 
+      }).catch((error)=>{
+        console.log(error);
+      })
+    }
+   
+
+    const profileHandler = (holderId) => {
+       console.log(holderId._id);
+       navigate(`/userprofile/${holderId._id}`)
+    }
 
 
     return (
@@ -81,7 +103,10 @@ const Card = ({ post, setPost }) => {
                   <div className='h-[2.5rem] w-[2.5rem] bg-secondary rounded-l-3xl rounded-br-3xl '></div>
                 </div>
                 <div className='pl-2 pt-2 mr-4'>
-                  <h5 className='text-main p-[0px] m-[0px] leading-none'>{holder.name}</h5>
+                  <h5 className='text-main p-[0px] m-[0px] leading-none' onClick={()=>{
+                    console.log(holder);
+                    profileHandler(holder)
+                  }}>{holder.name}</h5>
                   <h6 className='text-white  p-[0px] m-[0px] pt-[1.2px] text-sm leading-none'>{caption}</h6>
                 </div>
                 <div className='h-full pt-3'>
@@ -96,8 +121,8 @@ const Card = ({ post, setPost }) => {
                   <h5 className='text-white'>1.3k</h5>
                 </div>
                 <div className='text-center'>
-                  <HeartIcon className='w-5 text-main cursor-pointer' onClick={() => {
-                    likeHandler(_id, holder._id)
+                  <HeartIcon className={`w-5 ${likes.includes(userId) ? 'text-main' : 'text-secondary stroke-main '} cursor-pointer`} onClick={() => {
+                    likeHandler(_id,userId)
                   }} />
                   <h5 className='text-white'>{likes.length}</h5>
                 </div>

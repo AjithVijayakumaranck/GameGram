@@ -4,15 +4,19 @@ import { FileUpContext } from "../Contexts/FileUploadContext";
 import {PhotoIcon} from '@heroicons/react/24/solid'
 import axios from "axios";
 
-export default function FileUpload() {
+export default function FileUpload({post,setPost}) {
   const {fileUploa} = useContext(FileUploadContext)
   const{fileSave}=useContext(FileUpContext)
   const[file,setFile]=fileSave;
+  const[error,setError]=useState(false);
   const [showModal,setShowModal]=fileUploa
 
   const token=localStorage.getItem("token")
   const submitHandler=(e)=>{
     e.preventDefault()
+    if(file.file==""){
+    setError(true)
+    }else{
     console.log(file);
     let data = new FormData();
     for (let key in file) {
@@ -23,10 +27,15 @@ export default function FileUpload() {
       headers: { 'Content-Type': 'multipart/form-data' }
   }).then((response)=>{
     ModalHandler()
+    axios.get("http://localhost:5000/recieveFile").then((response) => {
+      console.log(response.data, "logoo ");
+      setPost([...response.data.post])
+    })
      console.log("success");
     }).catch((error)=>{
 
     })
+  }
   }
 
 
@@ -40,12 +49,12 @@ export default function FileUpload() {
 
 
   const uploadFile = (event) => {
-    // let file = event.target.files[0];
+
     console.log(event.target.files);
     console.log(URL.createObjectURL(event.target.files[0]));
     setFile({...file,fileUrl:URL.createObjectURL(event.target.files[0]),
     file:event.target.files[0]});
-    // setFile({ ...file, logo: file });
+  
 }
   return (
     <>
@@ -53,9 +62,9 @@ export default function FileUpload() {
       {showModal ? (
         <>
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center duration-300 items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
-            <div className="absolute  w-auto my-6 mx-auto max-w-3xl">
+            <div className="absolute   w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-secondary   outline-none focus:outline-none">
                 {/*header*/}
@@ -101,6 +110,10 @@ export default function FileUpload() {
                     Publish Post
                   </button>
                 </div>
+                  {
+                    error && <h1 className="text-main text-center ">upload a media</h1>
+                
+                  }
              
               </div>
             </div>
