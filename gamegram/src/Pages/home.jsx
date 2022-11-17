@@ -17,6 +17,7 @@ const Home = () => {
   const [showModal, setShowModal] = fileUploa
   const [posts,setPost]=useState([])
 
+
   useEffect(() => {
     axios.get("http://localhost:5000/recieveFile").then((response)=>{
       console.log(response.data,"userData");
@@ -32,6 +33,7 @@ const Home = () => {
   return (
     <div className='relative top-0 right-0 left-0'>
       <Navbar className=""/>
+     
       <div className='absolute px-3 md:px-[16rem] pt-[5rem]  top-0 left-0 right-0  z-[1]'>
         {showModal && <FileUpload setPost={setPost} post={posts}  className="absolute z-10"/>}
         <Stories />

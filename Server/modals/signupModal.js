@@ -21,6 +21,18 @@ const signUpTemplate =  new mongoose.Schema({
         type:Boolean,
         default:false
     },
+   bio:{
+        type:String,
+     
+    },
+    following:[{
+        type:ObjectId,
+        ref:'users'
+    }],
+    followers:[{
+        type:ObjectId,
+        ref:'users'
+    }],
     password:{
         type:String,
         required:true
@@ -32,4 +44,5 @@ const signUpTemplate =  new mongoose.Schema({
 },{ timestamps: true })
 
 const User=mongoose.model('users',signUpTemplate)
+
 module.exports={User};

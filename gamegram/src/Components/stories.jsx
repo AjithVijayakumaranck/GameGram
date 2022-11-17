@@ -12,6 +12,7 @@ const Stories = () => {
         slider.scrollLeft= slider.scrollLeft + 500
 
     }
+
   return (
     <div className='storiesCardWrapper md:py-5 py-2  mt-5 relative flex items-center bg-contrast rounded-xl px-2'>
         <ArrowSmallLeftIcon className='h-5 text-white hover:text-main ' onClick={slideLeft}/>

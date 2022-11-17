@@ -8,6 +8,8 @@ const multer = require('multer')
 const { Post } = require('../modals/postmodal')
 const fs = require('fs');
 const {verifyOtp} = require('../modals/otpModal')
+const {Conversation} = require('../modals/conversation')
+const {Message} = require('../modals/message')
 
 const { log } = require("console")
 const mongoose= require('mongoose')
@@ -251,6 +253,7 @@ router.post("/login", async (req, res) => {
 
 
 router.get('/getuserprofile/:id',(req,res,next)=>{
+    log("post here")
     const userId= req.params.id;
      User.findOne({_id:userId}).populate("post").then((response)=>{
       console.log(response);
@@ -287,6 +290,130 @@ console.log(index);
 console.log(manageComment);
     const currentComment = manageComment.index
     console.log(currentComment);
+})
+
+
+router.post('/followhandler',(req,res,next)=>{
+console.log(req.body);
+User.findOne({_id:req.body.currentUser,following: { 
+    $elemMatch: { 
+        $eq:req.body.user
+    }
+}}).then((response)=>{
+    if(response===null){
+        User.updateOne({_id:req.body.currentUser},{
+            $push:{
+                  following:ObjectId(req.body.user)
+                  }
+        }).then((response)=>{
+            User.updateOne({_id:req.body.User},{
+                $push:{
+                      followers:ObjectId(req.body.currentUser)
+                      }
+            }).then(()=>{
+
+                console.log("successfully pushed");
+                res.status(200).json({message:"hello siri"})
+            })
+            
+            
+        }).catch((err)=>{console.log(err,"error")})
+        res.status(500)
+       }else{
+        User.updateOne({_id:req.body.currentUser},{
+            $pull:{
+                  following:ObjectId(req.body.user)
+                  }
+        }).then((response)=>{
+            User.updateOne({_id:req.body.User},{
+                $push:{
+                      followers:ObjectId(req.body.currentUser)
+                      }
+            }).then(()=>{
+
+                console.log("successfully pulled");
+                res.status(200).json({message:"hello google"})
+            })
+        }).catch((err)=>{console.log(err,"error");})
+        res.status(400)
+       }
+          
+})
+})
+
+
+router.get('/getprof/:key',(req,res,next)=>{
+console.log(req.params.key,"heeesss");
+User.find({name:{$regex:/`${req.params.key}`/,$options:'i'}}).then((response)=>{
+    console.log(response);
+})
+})
+
+router.post('/getchats',(req,res,next)=>{
+   
+    User.findOne({_id:req.body.user,}).populate('following').populate('followers').then((response)=>{
+        console.log(response,"response");
+        res.status(200).json(response)
+    })
+
+})
+
+router.post('/createconversation', async (req,res,next)=>{
+    console.log(req.body);
+    const newConversation =await new Conversation({
+        member:[req.body.senderId,req.body.recieverId]
+    })
+    try{
+        const savedConversation = await newConversation.save()
+        res.status(200).json(savedConversation)
+
+    }catch(err){
+        res.status(500).json(err)
+    }
+})
+
+router.get('/getconversation/:userId',async (req,res,next)=>{
+    try{
+        const  conversation = await Conversation.find({member:{
+            $in:
+                [req.params.userId]
+        }})
+        res.status(200).json(conversation)
+
+    }catch(err){
+        res.status(500).json(err)
+    }
+})
+
+router.post('/addmessage', async (req,res,next)=>{
+    console.log(req.body);
+    const newMessage =await new Message(
+      {  conversationId:req.body.conversationId,
+    sender:req.body.sender,
+    text:req.body.text
+}
+
+    )
+    try{
+      const savedMessage = await newMessage.save()
+      res.status(200).json(savedMessage)
+    }catch(err){
+        res.status(500).json(err)
+    }
+})
+
+router.get('/getmessages/:conversationId',async (req,res,next)=>{
+    console.log("hell gooogoo");
+    console.log(req.params.conversationId,"hello");
+    console.log('6374951eb2985a08e25beb10');
+    try{
+        const  allMessagges = await Message.find({conversationId:req.params.conversationId})
+        console.log(allMessagges);
+        res.status(200).json({allMessagges,messages:"google"})
+
+    }catch(err){
+        res.status(500).json(err)
+    }
 })
 
 
