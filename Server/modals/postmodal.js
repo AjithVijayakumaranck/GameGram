@@ -16,7 +16,10 @@ const PostModal =  new mongoose.Schema({
         type:ObjectId
     }],
 
-    comments:[{ type:ObjectId, ref:"Comment"}],
+    comments:[{ 
+        type:ObjectId,
+        ref:"Comments"
+    }],
     holder:{
         type:ObjectId,
         required:true,

@@ -2,9 +2,12 @@ import axios from 'axios'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 
-const ProfileDetails = ({userDetails}) => {
+const ProfileDetails = ({userDetails}) => 
+{
+  const Navigate = useNavigate()
     const [currentUser,setCurrentUser]= useState(undefined)
     console.log(userDetails,"user is here");
     // const {following} = userDetails
@@ -14,6 +17,13 @@ const ProfileDetails = ({userDetails}) => {
     //     const Cuser = await 
     //     setCurrentUser(localStorage.getItem("user"))  
     // }
+
+    const handleMessageButton=(user,currentUser)=>{
+      console.log(user,currentUser);
+      axios.post("http://localhost:5000/createconversation",{senderId:currentUser,recieverId:user}).then(()=>{
+        Navigate('/message')
+      })
+    }
 
     const followHandler = (user,currentUser) => {
 axios.post("http://localhost:5000/followhandler",{user,currentUser}).then((response)=>{
@@ -45,12 +55,20 @@ axios.post("http://localhost:5000/followhandler",{user,currentUser}).then((respo
     currentUser === userDetails._id ? null :  <button className='rounded-md bg-contrast text-white mt-2' onClick={()=>{
   followHandler(userDetails._id,currentUser) 
     }}>
+      
     follow
   </button>
+  
+}
+{
+    currentUser === userDetails._id ? null :  <button className='rounded-md bg-main text-dark  mt-2 ' onClick={()=>{
+      handleMessageButton(userDetails._id,currentUser) 
+         }}>Message</button>  
+  
 }
   
         
-        
+ 
     </div>
     <div>
 

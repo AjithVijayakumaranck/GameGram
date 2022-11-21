@@ -8,6 +8,9 @@ const EditProf = ({userDetails}) => {
     // const [currentUser,setCurrentUser]= useState(undefined)
     const [userDet,setUserDet]=useState({})
 
+
+
+
     useEffect(() => {
         console.log(id,"hello google");
         const userId = id
@@ -18,6 +21,16 @@ const EditProf = ({userDetails}) => {
           console.log(err);
         })
       }, [])
+
+      const saveChangesHandler = () => {
+        console.log('have a nice day ',id);
+        axios.post(`http://localhost:5000/updateuserprofile`,id).then((response)=>{
+          console.log(response.data,"edit data ");
+          setUserDet({...userDet,...response.data.response}) 
+        }).catch((err)=>{
+          console.log(err);
+        })
+      }
 
     return (
         <div className="header flex flex-col  items-center md:justify-center pt-2 gap-10 mt-[2rem]">
@@ -48,9 +61,9 @@ const EditProf = ({userDetails}) => {
                 <textarea value={userDet.bio} className='w-[20rem] text-main outline-none px-6 text-center py-1 bg-secondary rounded divScroll' maxLength={'50'} />
 </div>
             </div>
-
             
         </div>
+          <button  className='w-[20rem] text-dark outline-none px-6 text-center py-1 bg-main rounded' onclick={saveChangesHandler}>Save Changes</button>
         <div>
     
         </div>

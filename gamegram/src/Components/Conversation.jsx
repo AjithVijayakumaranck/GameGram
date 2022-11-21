@@ -7,7 +7,7 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
     useEffect(() => {
         console.log(conversation, "conversation");
         console.log(currentUser, "current");
-        console.log(conversation[0].member, "friend")
+        console.log(conversation[0]?.member, "friend")
         let friendId
         
     const getUser = async (friendId) => {
@@ -21,7 +21,7 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
 
         const friendUser = async () => {
             console.log(currentUser, "currenthhh");
-            friendId = await conversation[0].member.find((m) => m !== currentUser);
+            friendId = await conversation[0]?.member.find((m) => m !== currentUser);
             getUser(friendId)
         }
         friendUser()

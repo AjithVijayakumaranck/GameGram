@@ -7,10 +7,8 @@ import Navbar from '../Components/navbar'
 import {io} from 'socket.io-client'
 
 
-
-
 const Chatingwindow = () => {
-  const [typingMessage,setTypingMessage]=useState("")
+  const [typingMessage,setTypingMessage]=useState(null)
   const socket = useRef()
   const [chat,setChats]=useState([])
   const [currentChat,setCurrentChat]=useState(null)
@@ -19,15 +17,52 @@ const Chatingwindow = () => {
   const [arrivalmessge,setArrivalMessge]=useState(null)
   const user= localStorage.getItem('user')
 
-  useEffect(()=>{
+
+ const getNewMessage = () => {
+   ;
+
+  //  socket.current.on("getMessage",(data) =>{
+  //   setArrivalMessge({
+  //     sender: data.userId,
+  //     text:data.text,
+  //     createdAt:Date.now()
+  //   })  
+  // })
+ } 
+
+useEffect(()=>{
     socket.current = io.connect("http://localhost:5000")
-    socket.current.on("getMessage",data =>{
-      console.log(data,"dataaa.................");
+    console.log("data.................");
+
+
+   socket.current.on("getMessage", (data) => {
+       console.log("INSIDE SOCKET.................");
+      setArrivalMessge({
+      sender: data.senderId,
+      text: data.text,
+      createdAt: Date.now(),
+    });
+  })
+    // getNewMessage()
+},[])
+  
+// useEffect(()=>{
+//  
+// },[typingMessage])
+
+useEffect(()=>{
+    socket.current = io.connect("http://localhost:5000")
+    socket.current.on("getMessage",(data) =>{
+     
+      console.log(data,"data.................");
+
       setArrivalMessge({
         sender: data.userId,
         text:data.text,
         createdAt:Date.now()
       })
+
+    
     })
 },[])
   
@@ -35,7 +70,7 @@ const Chatingwindow = () => {
 
 
 useEffect(()=>{
-  console.log("message arrieved");
+  console.log("message arrived");
   console.log(messages,"message asdadadas");
   arrivalmessge && currentChat ?.member.includes(arrivalmessge.sender) && 
   setMessages((prev)=>[...prev,arrivalmessge])
@@ -73,12 +108,9 @@ useEffect(()=>{
 const messageSubmitHandler = () =>{
 
   const receiverId = currentChat.member.find(member=> member !== user)
-  console.log(user);
-  socket.current.emit("sendMessage",{
-    userId:localStorage.getItem('user'),
-    receiverId,
-    text:typingMessage
-  })
+  console.log(user,"userrrrr.................");
+  console.log(typingMessage,"typee.................");
+
 
 
   console.log(typingMessage,"hello");
@@ -87,6 +119,11 @@ const messageSubmitHandler = () =>{
    sender:currentUser,
    text:typingMessage
  }).then((response)=>{
+  socket.current.emit("sendMessage",{
+    userId:localStorage.getItem('user'),
+    receiverId,
+    text:typingMessage
+  })
    console.log('leee');
    console.log(response);
    setMessages([...messages,response.data])
@@ -104,7 +141,7 @@ const messageSubmitHandler = () =>{
         <div>
             <Navbar />
         </div>
-        <div className='flex justify-center pt-7'>
+        <div className='flex justify-center pt-7 '>
     
            <ChatBox conversation={chat} currentUser={currentUser} currentChat={currentChat} setCurrentChat={setCurrentChat} messages={messages} setMessages={setMessages} messageSubmitHandler={messageSubmitHandler} typingMessage={typingMessage} setTypingMessage={setTypingMessage}/>
                       

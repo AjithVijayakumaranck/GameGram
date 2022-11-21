@@ -8,6 +8,19 @@ body{
   font-family: 'Roboto', sans-serif;
 }
 
+.toast-message {
+  border-radius: 50px !important;
+  color : white !important;
+background: #232325 !important;
+  font-size: 15px;
+  padding: 30px 20px;
+}
+
+.Toastify__progress-bar {
+  background-color: #BCFF01 !important;
+ 
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgba(255, 255, 255);
   background-color: #BCFF01;

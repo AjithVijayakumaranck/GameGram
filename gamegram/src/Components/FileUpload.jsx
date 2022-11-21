@@ -12,6 +12,16 @@ export default function FileUpload({post,setPost}) {
   const [showModal,setShowModal]=fileUploa
 
   const token=localStorage.getItem("token")
+
+
+  
+ const ModalHandler =()=>{
+  setShowModal(false)
+  setFile({...file,   file:"",
+  fileUrl:"",
+  Caption:""})
+   }
+
   const submitHandler=(e)=>{
     e.preventDefault()
     if(file.file==""){
@@ -25,9 +35,9 @@ export default function FileUpload({post,setPost}) {
     data.append("userToken",token)
     axios.post("http://localhost:5000/uploadfile",data,{
       headers: { 'Content-Type': 'multipart/form-data' }
-  }).then((response)=>{
-    ModalHandler()
+  }).then(()=>{
     axios.get("http://localhost:5000/recieveFile").then((response) => {
+      ModalHandler()
       console.log(response.data, "logoo ");
       setPost([...response.data.post])
     })
@@ -40,12 +50,6 @@ export default function FileUpload({post,setPost}) {
 
 
 
- const ModalHandler =()=>{
- setShowModal(false)
- setFile({...file,   file:"",
- fileUrl:"",
- Caption:""})
-  }
 
 
   const uploadFile = (event) => {

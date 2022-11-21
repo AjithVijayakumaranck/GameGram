@@ -13,6 +13,8 @@ const {Message} = require('../modals/message')
 
 const { log } = require("console")
 const mongoose= require('mongoose')
+const { Comments } = require("../modals/commentModel")
+const CommentControllers = require("../Controllers/CommentControllers")
 const ObjectId = mongoose.Types.ObjectId
 
 
@@ -92,25 +94,29 @@ router.post('/handlelike/:id/:holderId',(req,res,next)=>{
 })
 
 
-router.post('/managecomments',(req,res,next)=>{
-    res.status(200).json({ms})
-})
+
 
 router.post('/isUserAuth', verifyToken, (req, res, next) => {
     res.status(200).json({ auth: true })
 })
 
 router.get('/recieveFile', async(req, res, next) => {
+    console.log("heellorecieve file");
 //   let postpop = await Post.find().populate('holder');
-//   console.log(postpop);
+//   console.log(postpop); 
 // const follwers = User.finbd({id:})
 // const following =  User.find()
 // copnst  customarray = [ ..folloers, ...following]
 // holder._id: { in : customarray}
-  Post.find().populate('holder').sort({createdAt:-1}).then((response)=>{
+  Post.find().populate('holder').populate({
+    path : 'comments',
+    populate : {
+      path : 'Owner'
+    }
+  }).sort({createdAt:-1}).then((response)=>{
+    console.log(response[0]?.comments);
      const posts=response
       const convertedPosts = [];
-    
       posts.forEach( ( post ) =>{
        convertedPosts.push(
            {
@@ -118,8 +124,7 @@ router.get('/recieveFile', async(req, res, next) => {
                post: fs.readFileSync(`./StaticFiles/postImages/${post.Post}`, 'base64')
            }
        ) 
-      } )
-
+      } );
       res.json({ post: convertedPosts})
   })
 })
@@ -271,7 +276,7 @@ router.get('/getuserprofile/:id',(req,res,next)=>{
 
     })
     
-    console.log("---------------------------------------------------------------");
+   
 
     console.log(convertedPost,"convert");
     finalPost.converted=convertedPost
@@ -283,14 +288,7 @@ router.get('/getuserprofile/:id',(req,res,next)=>{
      })
 })
 
-router.post('/managecomment',(req,res,next)=>{
-    console.log(req.body);
-const {index,manageComment}= req.body
-console.log(index);
-console.log(manageComment);
-    const currentComment = manageComment.index
-    console.log(currentComment);
-})
+router.post('/managecomment',CommentControllers.addComment)
 
 
 router.post('/followhandler',(req,res,next)=>{
@@ -336,8 +334,7 @@ User.findOne({_id:req.body.currentUser,following: {
             })
         }).catch((err)=>{console.log(err,"error");})
         res.status(400)
-       }
-          
+       }        
 })
 })
 
@@ -360,7 +357,7 @@ router.post('/getchats',(req,res,next)=>{
 
 router.post('/createconversation', async (req,res,next)=>{
     console.log(req.body);
-    const newConversation =await new Conversation({
+    let newConversation =await new Conversation({
         member:[req.body.senderId,req.body.recieverId]
     })
     try{
@@ -388,11 +385,10 @@ router.get('/getconversation/:userId',async (req,res,next)=>{
 router.post('/addmessage', async (req,res,next)=>{
     console.log(req.body);
     const newMessage =await new Message(
-      {  conversationId:req.body.conversationId,
+      {conversationId:req.body.conversationId,
     sender:req.body.sender,
     text:req.body.text
 }
-
     )
     try{
       const savedMessage = await newMessage.save()
@@ -415,6 +411,12 @@ router.get('/getmessages/:conversationId',async (req,res,next)=>{
         res.status(500).json(err)
     }
 })
+
+// commentRoutes .......................
+
+router.post('/commentlikehandle',CommentControllers.commentLike)
+
+router.post('/deleteComment',CommentControllers.deleteComment)
 
 
 

@@ -24,23 +24,37 @@ const io = new Server(server,{
 
 let users = []
 
-const addUser = (userId,socketId) => {
-console.log("adding user ...........................");
-  !users.some(user=>user.userId=== userId) && users.push({userId,socketId})
+// const addUser = (userId,socketId) => {
+// console.log("adding user ...........................");
+//   !users.some(user=>user.userId=== userId) && users.push({userId,socketId})
 
-}
+// }
+
+const addUser = (userId,socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
 
 const removeUser = (socketId) => {
-  user = users.filter(user=>user.socketId !== socketId)
-}
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+// const removeUser = (socketId) => {
+//   user = users.filter(user=>user.socketId !== socketId)
+// }
 
 const getUser = (userId) => {
-  console.log(users,'userss');
-  console.log(userId,"serID");
-  return users.find(user => user.userId === userId)
+  return users.find((user) => user.userId === userId);
+};
+
+// const getUser = (userId) => {
+//   console.log(users,'userss');
+//   console.log(userId,"serID");
+//   return users.find(user => user.userId === userId)
 
   
-}
+// }
 
 
 
@@ -50,7 +64,7 @@ io.on("connection", (socket) => {
 
   //take userId and socketId from user
   socket.on("addUser", (userId) => {
-    console.log(userId),"---------------------------------";
+    console.log(userId,"eeee"),"---------------------------------";
     addUser(userId,socket.id);
     io.emit("getUsers", users);
   });
@@ -59,8 +73,8 @@ socket.on("sendMessage",({userId,receiverId,text})=>{
      const user = getUser(receiverId)
      console.log(userId,receiverId,text,"hello google");
      console.log(user,"socket user ........................");
-     console.log(user.socketId,"socket user ........................");
-     io.to(user.socketId).emit('getMessage',{
+     console.log(user?.socketId,"socket user ........................");
+     io.to(user?.socketId).emit('getMessage',{
       userId,text
      })
 })
