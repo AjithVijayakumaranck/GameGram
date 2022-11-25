@@ -4,6 +4,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const connection = require('./Connections/db')
 const userRoutes = require('./Routes/userRoutes')
+const adminRoutes = require('./Routes/AdminRoutes')
 const mongoose = require('mongoose')
 let bodyParser = require('body-parser');
 const session = require('express-session')
@@ -13,7 +14,8 @@ const { log } = require('console')
 
 app.use(cors())
 app.use(express.json())
-
+app.use('/images',express.static('StaticFiles'))
+// app.use('/images',express.static())
 const server = http.createServer(app)
 
 const io = new Server(server,{
@@ -24,11 +26,7 @@ const io = new Server(server,{
 
 let users = []
 
-// const addUser = (userId,socketId) => {
-// console.log("adding user ...........................");
-//   !users.some(user=>user.userId=== userId) && users.push({userId,socketId})
 
-// }
 
 const addUser = (userId,socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -40,21 +38,22 @@ const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
-// const removeUser = (socketId) => {
-//   user = users.filter(user=>user.socketId !== socketId)
-// }
 
 const getUser = (userId) => {
   return users.find((user) => user.userId === userId);
 };
 
-// const getUser = (userId) => {
-//   console.log(users,'userss');
-//   console.log(userId,"serID");
-//   return users.find(user => user.userId === userId)
+const getAllUsers = (userId) => {
+  console.log(userId,"hello users");
+  console.log(users,"hello users....................");
+  return users
+  // return users.find((user) => {
+  //   console.log(userId.userId,"hello suuuuusdsaaaaaaaaaaaaaa");
+  //   console.log(user.userId.userId,"hello suuuuu");
+  //   user.userId.userId !== userId.userId});
+};
 
-  
-// }
+
 
 
 
@@ -63,25 +62,36 @@ io.on("connection", (socket) => {
   console.log("a user connected.");
 
   //take userId and socketId from user
+  
   socket.on("addUser", (userId) => {
-    console.log(userId,"eeee"),"---------------------------------";
+    console.log(userId,"eeee rrrrrrrrrrrrrrrrrrrr");
     addUser(userId,socket.id);
     io.emit("getUsers", users);
   });
 
 socket.on("sendMessage",({userId,receiverId,text})=>{
      const user = getUser(receiverId)
-     console.log(userId,receiverId,text,"hello google");
-     console.log(user,"socket user ........................");
-     console.log(user?.socketId,"socket user ........................");
+    
      io.to(user?.socketId).emit('getMessage',{
       userId,text
      })
 })
+
+  socket.on("getAllUsers",async(userId)=>{
+  const allUsers=await getAllUsers(userId)
+  console.log(allUsers,"online users");
+  io.emit('getusersAll',{
+  allUsers
+   })
+})
  
-socket.on("disconnect",()=>{
+socket.on("disconnect",async()=>{
   console.log("user disconnected");
   removeUser(socket.id)
+  console.log(users,"online users");
+  io.emit('getusersAll',{
+  users
+   })
 })
 
 
@@ -108,6 +118,7 @@ app.use(session({
 
 
 app.use('/',userRoutes)
+app.use('/admin',adminRoutes)
 
 server.listen(5000,()=>{
     console.log("server running on port 5000");

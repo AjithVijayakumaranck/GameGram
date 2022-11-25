@@ -10,7 +10,8 @@ module.exports = {
         'secondary':'#232325',
         'main':'#BCFF01',
         'contrast':'#363636',
-        'lightContrast':'#3A3A3E'
+        'lightContrast':'#3A3A3E',
+        'admin':'#b100fa'
       }
     },
     screens: {

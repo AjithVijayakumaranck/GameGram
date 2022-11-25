@@ -10,6 +10,8 @@ const EditProfile = () => {
   let {id} =  useParams()
   const [userDetails,setUserDetails]= useState({})
   const [userPosts,setuserPosts]= useState([])
+  const [file,setFile]=useState({  file:"",
+  fileUrl:""})
   
   useEffect(() => {
     console.log(id,"hello google");
@@ -27,7 +29,7 @@ const EditProfile = () => {
     <div className='overflow-auto divScroll h-screen'><div>
         <Navbar/>
     </div>
-    <EditProf userDetails={userDetails}/>
+    <EditProf userDetails={userDetails} setFile={setFile} file={file}/>
     </div>
   )
 }

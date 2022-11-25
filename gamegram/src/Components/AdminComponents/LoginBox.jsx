@@ -1,10 +1,12 @@
+
+
 import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 
-const Login = () => {
+const LoginAdmin = () => {
     const [invalidUser,setInvaliduser]=useState(false)
     const navigate=useNavigate()
     const [login,setLogin]= useState({
@@ -19,7 +21,7 @@ const Login = () => {
    const loginHandler = (e)=>{
     e.preventDefault()
     console.log("boom");
-    axios.post('http://localhost:5000/login',login).then((Response)=>{
+    axios.post('http://localhost:5000/admin/adminlogin',login).then((Response)=>{
         console.log("response is here",Response);
        if (Response.data.status){
         const { token,user } = Response.data
@@ -42,14 +44,14 @@ const Login = () => {
                 <div className='px-5 '>
                     <div id="formHeader" className='text-main font-semibold text-center sm:text-left  mb-5 ' >
                   <h2 className='text-xl'>
-                 BE A GAME <span className="text-white">CHANGER</span>
+                ADMIN <span className="text-white">LOGIN</span>
                   </h2>
                     </div>
                     <form action="" onSubmit={loginHandler}>
                     <div className='grid grid-cols-2 gap-3 mb-5'>
                         <div className='flex flex-col col-span-2 sm:col-span-2'>
-                            <label htmlFor="Firstname" className='text-white mb-2 sm:mb-5'>First name</label>
-                            <input type="text" id='Firstname' name="userName" onChange={onChangeHandler} className='bg-secondary rounded-md py-2 px-3 outline-none text-white' placeholder='FirstName' value={login.userName} required />
+                            <label htmlFor="Firstname" className='text-white mb-2 sm:mb-5'>Email</label>
+                            <input type="text" id='Firstname' name="userName" onChange={onChangeHandler} className='bg-secondary rounded-md py-2 px-3 outline-none text-white' placeholder='Email' value={login.userName} required />
                         </div>
                   
                     </div>
@@ -58,15 +60,10 @@ const Login = () => {
                     <div className='flex flex-col mb-5'>
                         <label htmlFor="Password" className='text-white mb-2'>Password</label>
                         <input type="password" id='Password' name="password" onChange={onChangeHandler} className='bg-secondary rounded-md py-2 px-3 outline-none text-white' placeholder='password' value={login.password} required/>
-                        <p className='text-white pt-2 text-sm'>Forgot <span className='text-main cursor-pointer' onClick={()=>{
-                            navigate('/forgotPassword')
-                        }}>Password ?</span></p>
                     </div>
                     <div className='text-center sm:text-left'>
-                        <input type="submit" className='bg-main px-2 py-1 rounded-sm '/><span className='text-main text-xs pl-5'>{invalidUser&& "Mail id or Password is wrong"}</span>
-                        <p className='text-white pt-2 text-sm'>wanna be a member? <span className='text-main cursor-pointer' onClick={()=>{
-                            navigate('/createaccount')
-                        }}>signup</span></p>
+                        <input type="submit" className='bg-main px-2 py-1 rounded-sm ' value="Login as Admin"/><span className='text-main text-xs pl-5'>{invalidUser&& "Mail id or Password is wrong"}</span>
+                      
                       
                     </div>
             </form>
@@ -79,4 +76,5 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginAdmin
+

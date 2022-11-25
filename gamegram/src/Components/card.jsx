@@ -152,19 +152,21 @@ pauseOnHover
             <div id='cardMenus' className='flex justify-between'>
 
               {/* cardProfile */}
-              <div className='flex'>
-                <div className='h-[3rem] w-[3rem] bg-main rounded-l-3xl rounded-br-3xl py-1 px-1' >
-                  <div className='h-[2.5rem] w-[2.5rem] bg-secondary rounded-l-3xl rounded-br-3xl '></div>
+              <div className='flex items-center w-full'>
+               
+                <div>
+                <div className='h-[2.5rem] w-[2.5rem]  bg-secondary rounded-full border-2 border-main '></div>
                 </div>
-                <div className='pl-2 pt-2 mr-4'>
+                
+                <div className='pl-2  mr-4'>
                   <h5 className='text-main p-[0px] m-[0px] leading-none' onClick={()=>{
                     console.log(holder);
                     profileHandler(holder)
                   }}>{holder.name}</h5>
-                  <h6 className='text-white  p-[0px] m-[0px] pt-[1.2px] text-sm leading-none'>{caption}</h6>
                 </div>
-                <div className='h-full pt-3'>
-                  <button className='bg-main text-secondary text-sm px-2 my-auto flex rounded-sm font-medium '> <CheckIcon className='w-4' /><p className='hidden xs:flex'> Following </p></button>
+                <div className='h-full pt-[.8rem] w-full rounded-lg mx-5 pl-3 bg-secondary'>
+                  <h6 className='text-white  p-[0px] m-[0px] pt-[1.2px] text-sm leading-none'>{caption}</h6>
+                  {/* <button className='bg-main text-secondary text-sm px-2 my-auto flex rounded-sm font-medium '> <CheckIcon className='w-4' /><p className='hidden xs:flex'> Following </p></button> */}
                 </div>
               </div>
               <div className='flex gap-5 pr-2'>
@@ -186,7 +188,7 @@ pauseOnHover
 
 
           </div>
-          <div className='bg-contrast rounded-xl px-4 py-2 hidden md:flex flex-col justify-between'>
+          <div className=' bg-contrast rounded-xl   px-4 py-2 hidden md:flex flex-col justify-between'>
             <div className='header text-white flex justify-between'>
               <h4>Comments</h4>
               <div className='flex gap-1'>
@@ -233,7 +235,7 @@ return(
             
               <div >
                 <button className=' bg-main px-1 py-1 rounded-md flex' onClick={(e) => {
-                  commentHandler(e,_id, holder._id,index)
+                  commentHandler(e,_id,holder._id,index)
                 }} >
                   <PaperAirplaneIcon className='w-6' />
                 </button>

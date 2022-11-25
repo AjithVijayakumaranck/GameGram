@@ -5,6 +5,12 @@ import FileUpload from "./Components/FileUpload";
 import ForgotPassword from "./Components/forgotPassword";
 import Navbar from "./Components/navbar";
 import VerificationOtp from "./Components/verificationOtp";
+import AdminHome from "./Pages/AdminPages/AdminHome";
+import AdminLogin from "./Pages/AdminPages/adminLogin";
+import DashBoard from "./Pages/AdminPages/DashBoard";
+import PostsAdmin from "./Pages/AdminPages/PostsAdmin";
+import Reports from "./Pages/AdminPages/Reports";
+import Users from "./Pages/AdminPages/Users";
 import Chatingwindow from "./Pages/chating";
 import EditProfile from "./Pages/editProfile";
 import Home from "./Pages/home";
@@ -42,6 +48,13 @@ const MainRoutes = () => {
           <Route exact path="/createaccount" element={<LoginSignup />} />
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/message" element={<Chatingwindow />}></Route>
+          <Route exact path="/adminlogin" element={<AdminLogin />}></Route>
+    <Route exact path="/adminhome" element={<AdminHome />}>
+          <Route path="users" element={<Users/>}/>
+          <Route path="dashboard" element={<DashBoard/>}/>
+          <Route path="posts" element={<PostsAdmin/>}/>
+          <Route path="reports" element={<Reports/>}/>
+    </Route>
         </Routes>
       </Router>
     </div>

@@ -37,9 +37,10 @@ export default function FileUpload({post,setPost}) {
       headers: { 'Content-Type': 'multipart/form-data' }
   }).then(()=>{
     axios.get("http://localhost:5000/recieveFile").then((response) => {
+      setPost([...response.data.post])
+      setShowModal(false)
       ModalHandler()
       console.log(response.data, "logoo ");
-      setPost([...response.data.post])
     })
      console.log("success");
     }).catch((error)=>{

@@ -5,10 +5,11 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 
-const ProfileDetails = ({userDetails}) => 
+const ProfileDetails = ({userDetails,setState,State}) => 
 {
   const Navigate = useNavigate()
     const [currentUser,setCurrentUser]= useState(undefined)
+  
     console.log(userDetails,"user is here");
     // const {following} = userDetails
     // console.log(following,"h000");
@@ -27,7 +28,7 @@ const ProfileDetails = ({userDetails}) =>
 
     const followHandler = (user,currentUser) => {
 axios.post("http://localhost:5000/followhandler",{user,currentUser}).then((response)=>{
-
+setState(!State)
 }
 )
     }
@@ -48,15 +49,20 @@ axios.post("http://localhost:5000/followhandler",{user,currentUser}).then((respo
     <div className='flex flex-col justify-center'>
         <h1 className='text-white text-[2rem] font-light'>{userDetails.userName}</h1>
         <h1 className='text-white text-[1rem]  font-light'>{userDetails.name}</h1>
+      <div className='flex gap-5 py-1'>
+          <h1 className='text-white text-[1rem]  font-light'>{userDetails?.followers?.length} Followers</h1>
+        <h1 className='text-white text-[1rem]  font-light'>{userDetails?.following?.length} Following</h1>
+        <h1 className='text-white text-[1rem]  font-light'>{userDetails?.post?.length} Post</h1>
+      </div>
         <h1 className='text-white  font-light'>Valorant Player <span className='text-main'>@UnknownEsports</span></h1>
         <h1 className='text-white text-[.7rem] font-light pt-3 text-center md:text-start'>Website</h1>
         <a href="#" className='bg-contrast text-main rounded-full text-center mt-1'>www.gfxbot.co.in</a>
 {
-    currentUser === userDetails._id ? null :  <button className='rounded-md bg-contrast text-white mt-2' onClick={()=>{
+    currentUser === userDetails._id ? null :  <button className={`rounded-md ${userDetails?.followers?.includes(currentUser) ?'bg-main text-dark mt-2 before:content-["following"] duration-300 hover:bg-red-600 hover:before:content-["unfollow"]':'bg-contrast text-white mt-2 before:content-["follow"] hover:bg-main hover:text-dark hover:before:content-["follow"]'  } `} onClick={()=>{
   followHandler(userDetails._id,currentUser) 
     }}>
       
-    follow
+ {/* {userDetails?.followers?.includes(currentUser) ? 'following' : "follow"} */}
   </button>
   
 }

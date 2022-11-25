@@ -25,6 +25,11 @@ const signUpTemplate =  new mongoose.Schema({
         type:String,
      
     },
+   Blocked:{
+        type:Boolean,
+        default:false
+     
+    },
     following:[{
         type:ObjectId,
         ref:'users'

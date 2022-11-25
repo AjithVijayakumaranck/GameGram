@@ -1,7 +1,7 @@
 import React from 'react'
 const a=[1,2,3,4,5,6,7,8,9,10,11,12]
 
-const Profilepost = ({userPost}) => {
+const Profilepost = ({userPost,setCurrenPost,singlePostView}) => {
  
   return (
     <div className='flex flex-col items-center  mt-10 '>
@@ -12,7 +12,9 @@ const Profilepost = ({userPost}) => {
   const {Post,post} = element
   const ext = Post.split('.')[1];
     return(
-        <div className='bg-main text-white  w-[10rem]  h-[10rem] md:w-[13rem]  md:h-[13rem]'>
+        <div className='bg-main text-white  w-[10rem]  h-[10rem] md:w-[13rem]  md:h-[13rem]' onClick={()=>{
+          singlePostView(element._id)
+        }}>
                <img src={`data:image/${ext};base64, ${post}`} alt="Red dot" className='h-full w-full object-cover' />
             </div>
     )

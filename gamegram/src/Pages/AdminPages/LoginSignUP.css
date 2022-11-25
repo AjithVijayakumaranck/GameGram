@@ -1,0 +1,8 @@
+#backDrop {
+
+background-image: url("../../Assets/Untitled-1.png");
+background-position: center;
+background-attachment: fixed;
+background-size: cover;
+background-repeat: no-repeat;
+}

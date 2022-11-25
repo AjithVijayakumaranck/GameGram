@@ -15,6 +15,7 @@ const { log } = require("console")
 const mongoose= require('mongoose')
 const { Comments } = require("../modals/commentModel")
 const CommentControllers = require("../Controllers/CommentControllers")
+const postControllers = require("../Controllers/postControllers")
 const ObjectId = mongoose.Types.ObjectId
 
 
@@ -101,7 +102,7 @@ router.post('/isUserAuth', verifyToken, (req, res, next) => {
 })
 
 router.get('/recieveFile', async(req, res, next) => {
-    console.log("heellorecieve file");
+ 
 //   let postpop = await Post.find().populate('holder');
 //   console.log(postpop); 
 // const follwers = User.finbd({id:})
@@ -114,7 +115,6 @@ router.get('/recieveFile', async(req, res, next) => {
       path : 'Owner'
     }
   }).sort({createdAt:-1}).then((response)=>{
-    console.log(response[0]?.comments);
      const posts=response
       const convertedPosts = [];
       posts.forEach( ( post ) =>{
@@ -168,7 +168,6 @@ router.post('/verifyOtp',async (req, res) => {
     // console.log(userId);
     // console.log(user);
     verifyOtp.findOne({userId:user._id}).then((response)=>{
-        console.log(response);
         bcrypt.compare(oneTimePass, response.otp).then((response)=>{
            User.updateOne({_id:user._id},{
                $set:{
@@ -187,12 +186,13 @@ router.post("/uploadfile", upload.single('file'), async (req, res) => {
     console.log(req.body);
     
     let HolderId;
+    console.log(req.body.userToken);
     const token = req.body.userToken.split(' ')[1]
-    console.log(token);
+    console.log(token,'helllo');
     const auth=()=>{
         jwt.verify(token, process.env.JWTPRIVATEKEY, (err, decoded) => {
             if (err) {
-      
+                console.log(err.message,"error is here");
                 res.status(401).json({ auth: false, message: "you are failed to authenticate" });
             } else {
         
@@ -260,8 +260,9 @@ router.post("/login", async (req, res) => {
 router.get('/getuserprofile/:id',(req,res,next)=>{
     log("post here")
     const userId= req.params.id;
+    console.log("post is herr",userId);
      User.findOne({_id:userId}).populate("post").then((response)=>{
-      console.log(response);
+      console.log(response,'hhhe');
       const finalPost=response
       const post = response.post
       const convertedPost = []
@@ -278,12 +279,13 @@ router.get('/getuserprofile/:id',(req,res,next)=>{
     
    
 
-    console.log(convertedPost,"convert");
+    // console.log(convertedPost,"convert");
     finalPost.converted=convertedPost
-    console.log(finalPost,"converted Posts");
+    // console.log(finalPost,"converted Posts");
         res.status(200).json({response,convertedPost})
      }).catch((err)=>{
          console.log(err);
+         console.log(err,'hhhe...............');
         res.status(404).json({msg:'user not found'})
      })
 })
@@ -293,20 +295,22 @@ router.post('/managecomment',CommentControllers.addComment)
 
 router.post('/followhandler',(req,res,next)=>{
 console.log(req.body);
-User.findOne({_id:req.body.currentUser,following: { 
+let {currentUser,user}= req.body
+User.findOne({_id:user,followers: { 
     $elemMatch: { 
-        $eq:req.body.user
+        $eq:currentUser
     }
 }}).then((response)=>{
+    console.log(response,'user found');
     if(response===null){
-        User.updateOne({_id:req.body.currentUser},{
+        User.updateOne({_id:user},{
             $push:{
-                  following:ObjectId(req.body.user)
+                  followers:ObjectId(currentUser)
                   }
         }).then((response)=>{
-            User.updateOne({_id:req.body.User},{
+            User.updateOne({_id:currentUser},{
                 $push:{
-                      followers:ObjectId(req.body.currentUser)
+                      following:ObjectId(user)
                       }
             }).then(()=>{
 
@@ -318,14 +322,14 @@ User.findOne({_id:req.body.currentUser,following: {
         }).catch((err)=>{console.log(err,"error")})
         res.status(500)
        }else{
-        User.updateOne({_id:req.body.currentUser},{
+        User.updateOne({_id:user},{
             $pull:{
-                  following:ObjectId(req.body.user)
+                  followers:ObjectId(currentUser)
                   }
         }).then((response)=>{
-            User.updateOne({_id:req.body.User},{
-                $push:{
-                      followers:ObjectId(req.body.currentUser)
+            User.updateOne({_id:currentUser},{
+                $pull:{
+                      following:ObjectId(user)
                       }
             }).then(()=>{
 
@@ -419,5 +423,8 @@ router.post('/commentlikehandle',CommentControllers.commentLike)
 router.post('/deleteComment',CommentControllers.deleteComment)
 
 
+//postControllers .......................
+
+router.get('/getpost/:postId',postControllers.getSinglePost)
 
 module.exports = router

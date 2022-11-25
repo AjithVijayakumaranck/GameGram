@@ -53,16 +53,11 @@ useEffect(()=>{
 useEffect(()=>{
     socket.current = io.connect("http://localhost:5000")
     socket.current.on("getMessage",(data) =>{
-     
-      console.log(data,"data.................");
-
       setArrivalMessge({
         sender: data.userId,
         text:data.text,
         createdAt:Date.now()
       })
-
-    
     })
 },[])
   
@@ -110,8 +105,6 @@ const messageSubmitHandler = () =>{
   const receiverId = currentChat.member.find(member=> member !== user)
   console.log(user,"userrrrr.................");
   console.log(typingMessage,"typee.................");
-
-
 
   console.log(typingMessage,"hello");
  axios.post('http://localhost:5000/addmessage',{
