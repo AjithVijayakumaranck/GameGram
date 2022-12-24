@@ -39,7 +39,7 @@ Live : <a href="#" target="blank"></a>
 Clone the project
 
 ```bash
-  git clone https://github.com/Faisal-kkn/Social-Media.git
+  https://github.com/AjithVijayakumaranck/Gamegram.git
 ```
 
 Go to the project directory
