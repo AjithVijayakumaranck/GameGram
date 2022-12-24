@@ -16,12 +16,7 @@ Live : <a href="#" target="blank"></a>
   - Block user’s and post  
 
 
-#### User register with email otp
-![image](https://user-images.githubusercontent.com/95907424/209275091-d66eb25d-0f02-4632-8cef-96bb0ce94b56.png)
-![image](https://user-images.githubusercontent.com/95907424/209275388-b61b19d1-a850-43cb-9d27-8ac6ba708b5b.png)
 
-#### Login 
-![image](https://user-images.githubusercontent.com/95907424/209275062-6c30fdb5-814c-4b2d-9afa-5f93398ecc78.png)
 
 
 ## Used 
