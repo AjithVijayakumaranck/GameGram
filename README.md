@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/95907424/209274108-dbcd6ed2-4acd-44bd-b140-31a147480d3d.png" width="400px" />
+
 Live : <a href="#" target="blank"></a>
 
 ## Main Functionality
