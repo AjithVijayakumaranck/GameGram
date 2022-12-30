@@ -19,12 +19,12 @@ const EditProf = ({ userDetails,setFile,file}) => {
   useEffect(() => {
     console.log(id, "hello google");
     const userId = id
-    axios.get(`https://gamegram.ga/api//getuserprofile/${userId}`).then((response) => {
+    axios.get(`https://gamegram.ga/api/getuserprofile/${userId}`).then((response) => {
       console.log(response.data, "edit data ");
       setUserDet({ ...userDet, ...response.data.response })
       setFile({...file,
-        file:`https://gamegram.ga/api//images/postimages/${response.data.response.profilePic}`,
-        fileUrl:`https://gamegram.ga/api//images/postimages/${response.data.response.profilePic}`})
+        file:`https://gamegram.ga/api/images/postimages/${response.data.response.profilePic}`,
+        fileUrl:`https://gamegram.ga/api/images/postimages/${response.data.response.profilePic}`})
     }).catch((err) => {
       console.log(err);
     })
@@ -43,7 +43,7 @@ const EditProf = ({ userDetails,setFile,file}) => {
 
   
   
-    axios.post(`https://gamegram.ga/api//updateuserprofile`,data,{
+    axios.post(`https://gamegram.ga/api/updateuserprofile`,data,{
       headers: { 'Content-Type': 'multipart/form-data' }
   }).then((response) => {
 nav(`/userprofile/${localStorage.getItem('user')}`)

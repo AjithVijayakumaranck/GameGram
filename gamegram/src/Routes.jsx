@@ -27,7 +27,7 @@ const MainRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   const auth = () => {
-    axios.post("https://gamegram.ga/api//isUserAuth").then((response) => {
+    axios.post("https://gamegram.ga/api/isUserAuth").then((response) => {
       setIsAuth(true);
     });
   };

@@ -21,7 +21,7 @@ const Profile = () => {
 
   const singlePostView = async (postId) => {
     console.log("hello Post");
-    axios.get(`https://gamegram.ga/api//getpost/${postId}`).then((response) => {
+    axios.get(`https://gamegram.ga/api/getpost/${postId}`).then((response) => {
       console.log(response.data, "hello post");
       setCurrentPost({ ...response.data }) 
       setSingleModal(true)
@@ -31,7 +31,7 @@ const Profile = () => {
   useEffect(() => {
     console.log(id, "hello google");
     const userId = id
-    axios.get(`https://gamegram.ga/api//getuserprofile/${userId}`).then((response) => {
+    axios.get(`https://gamegram.ga/api/getuserprofile/${userId}`).then((response) => {
       console.log(response.data,'userPodfile');
       setUserDetails({ ...response.data.response })
       setuserPosts([...response.data.convertedPost])

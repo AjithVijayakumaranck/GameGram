@@ -21,7 +21,7 @@ const VerificationOtp = () => {
 
    const submitHandler=(e)=>{
    e.preventDefault()
-   axios.post('https://gamegram.ga/api//verifyOtp',{mailid,otp}).then((response)=>{
+   axios.post('https://gamegram.ga/api/verifyOtp',{mailid,otp}).then((response)=>{
    console.log(response.data);
 navigate('/')
    }).catch((error)=>{
