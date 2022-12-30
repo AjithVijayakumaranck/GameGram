@@ -4,6 +4,8 @@ const io = require('socket.io')(8800, {
     cors: {
         origin: "https://gamegram.ga"
     }
+},()=>{
+    console.log("socket working");
 })
 
 let users = []
@@ -30,3 +32,43 @@ const getAllUsers = (userId) => {
   console.log(users,"hello users....................");
   return users
 };
+
+io.on("connection", (socket) => {
+    //when ceonnect
+    console.log("a user connected.");
+  
+    //take userId and socketId from user
+    
+    socket.on("addUser", (userId) => {
+      console.log(userId,"eeee rrrrrrrrrrrrrrrrrrrr");
+      addUser(userId,socket.id);
+      io.emit("getUsers", users);
+    });
+  
+  socket.on("sendMessage",({userId,receiverId,text})=>{
+    console.log(text,"live text");
+       const user = getUser(receiverId)
+       io.to(user?.socketId).emit('getMessage',{
+        userId,text
+       })
+  })
+  
+    socket.on("getAllUsers",async(userId)=>{
+    const allUsers=await getAllUsers(userId)
+    console.log(allUsers,"online users");
+    io.emit('getusersAll',{
+    allUsers
+     })
+  })
+   
+  socket.on("disconnect",async()=>{
+    console.log("user disconnected");
+    removeUser(socket.id)
+    console.log(users,"online users");
+    io.emit('getusersAll',{
+    users
+     })
+  })
+  
+  
+  })
