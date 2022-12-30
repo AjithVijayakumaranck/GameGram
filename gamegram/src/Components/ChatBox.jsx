@@ -25,7 +25,7 @@ const ChatBox = ({ conversation,currentUser,currentChat,setCurrentChat,messages,
         console.log(search, "hello");
         const getChat = () => {
             console.log(search, "sea5rchg is here");
-            axios.get(`https//gamegram.ga/api/getprof/${search}`).then((response) => {
+            axios.get(`https://gamegram.ga/api//getprof/${search}`).then((response) => {
             })
         }
         getChat()

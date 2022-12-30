@@ -23,7 +23,7 @@ const SinglePost = ({ setSingleModal, currentPost, singlePostView }) => {
   const likeHandler = async (postId) => {
     let holderId = await localStorage.getItem('user')
     console.log(postId, holderId, "post like from prof");
-    axios.post(`https//gamegram.ga/api/handlelike/${postId}/${holderId}`).then(() => {
+    axios.post(`https://gamegram.ga/api//handlelike/${postId}/${holderId}`).then(() => {
       console.log("code is here");
       singlePostView(postId)
     })
@@ -33,7 +33,7 @@ const SinglePost = ({ setSingleModal, currentPost, singlePostView }) => {
   const CommentlikeHandler = (commentId, userId, postId) => {
 
     console.log(userId);
-    axios.post('https//gamegram.ga/api/commentlikehandle', { commentId, userId }).then((response) => {
+    axios.post('https://gamegram.ga/api//commentlikehandle', { commentId, userId }).then((response) => {
       console.log(response.data);
       singlePostView(postId)
     }).catch((error) => {
@@ -49,7 +49,7 @@ const SinglePost = ({ setSingleModal, currentPost, singlePostView }) => {
       <div className='text-white w-[60rem] bg-secondary h-[30rem] flex shadow-xl'>
         <div className='w-1/2 '>
           <div className='w-full h-full flex justify-center items-center overflow-hidden '>
-            <img src={`https//gamegram.ga/api/images/postimages/${currentPost.Post}`} className='w-auto py-5' alt="Free unsplash image" />
+            <img src={`https://gamegram.ga/api//images/postimages/${currentPost.Post}`} className='w-auto py-5' alt="Free unsplash image" />
           </div>
         </div>
         <div className='w-1/2 bg-dark flex flex-col justify-between px-5 py-3'>

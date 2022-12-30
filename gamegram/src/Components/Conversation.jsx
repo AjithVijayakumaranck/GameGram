@@ -14,7 +14,7 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
         
        const getUser = async (friendId) => {
         console.log(friendId,"hello friend");
-        axios.get(`https//gamegram.ga/api/getuserprofile/${friendId}`).then((response) => {
+        axios.get(`https://gamegram.ga/api//getuserprofile/${friendId}`).then((response) => {
             console.log(response.data.response, "heee hoooo")
             setUser({...user,...response.data.response})
         })

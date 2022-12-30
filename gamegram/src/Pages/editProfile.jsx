@@ -17,7 +17,7 @@ const EditProfile = () => {
   useEffect(() => {
     console.log(id,"hello google");
     const userId = id
-    axios.get(`https//gamegram.ga/api/getuserprofile/${userId}`).then((response)=>{
+    axios.get(`https://gamegram.ga/api//getuserprofile/${userId}`).then((response)=>{
       console.log(response.data);
       setUserDetails({...userDetails,...response.data.response})
       setuserPosts([...userPosts,...response.data.convertedPost])

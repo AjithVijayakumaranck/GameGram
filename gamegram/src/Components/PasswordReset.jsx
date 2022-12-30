@@ -12,7 +12,7 @@ const PasswordReset = () => {
   const [mail,setMail]=useState('')
   const checkAccount = () => {
     setSpinner(true)
-    axios.post(`https//gamegram.ga/api/resetPassword`,{password:mail,userId}).then((response)=>{
+    axios.post(`https://gamegram.ga/api//resetPassword`,{password:mail,userId}).then((response)=>{
       console.log("hell o gooel im here");
       setSpinner(false)
       nav(`/`)

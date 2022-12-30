@@ -21,7 +21,7 @@ const VerificationOtpForgot = () => {
 
    const submitHandler=(e)=>{
    e.preventDefault()
-   axios.post('https//gamegram.ga/api/verifyOtpforgot',{mailid,otp}).then((response)=>{
+   axios.post('https://gamegram.ga/api//verifyOtpforgot',{mailid,otp}).then((response)=>{
    console.log(response.data,"veridfication otp datas");
    navigate(`/resetpassword/${response.data._id}`)
    }).catch((error)=>{

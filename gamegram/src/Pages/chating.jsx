@@ -76,7 +76,7 @@ useEffect(()=>{
 
     const getChats = async () => {
       setCurrentUser(user)
-       axios.get(`https//gamegram.ga/api/getconversation/${user}`).then((response)=>{
+       axios.get(`https://gamegram.ga/api//getconversation/${user}`).then((response)=>{
          console.log(response.data,"here is the conversations");
           setChats([...chat,response.data])
           console.log(chat,'cvharr');
@@ -97,7 +97,7 @@ const messageSubmitHandler = () =>{
   console.log(typingMessage,"typee.................");
 
   console.log(typingMessage,"hello");
- axios.post('https//gamegram.ga/api/addmessage',{
+ axios.post('https://gamegram.ga/api//addmessage',{
    conversationId:currentChat._id,
    sender:currentUser,
    text:typingMessage

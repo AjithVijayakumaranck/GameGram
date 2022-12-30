@@ -11,7 +11,7 @@ const MessageBox = ({currentChat,messages,setMessages,currentUser,typingMessage,
     
 //     const messageSubmitHandler = () =>{
 //    console.log(typingMessage,"hello");
-//   axios.post('https//gamegram.ga/api/addmessage',{
+//   axios.post('https://gamegram.ga/api//addmessage',{
 //     conversationId:currentChat._id,
 //     sender:currentUser,
 //     text:typingMessage
@@ -26,7 +26,7 @@ const MessageBox = ({currentChat,messages,setMessages,currentUser,typingMessage,
   useEffect(()=>{
     
     console.log(currentChat._id,"chat id");
-    axios.get(`https//gamegram.ga/api/getmessages/${currentChat._id}`).then((response)=>{
+    axios.get(`https://gamegram.ga/api//getmessages/${currentChat._id}`).then((response)=>{
         console.log(response.data.allMessagges,"hell9o google");
         setMessages([...response.data.allMessagges]);
        })

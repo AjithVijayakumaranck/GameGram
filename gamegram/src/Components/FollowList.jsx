@@ -20,7 +20,7 @@ const FollowList = ({result,modelControl}) => {
              <div className='flex py-2  my-1 rounded-lg px-2 items-center gap-3'>
                {/* <p>{result}</p> */}
                <div className='rounded-full border-main w-[3rem] h-[3rem] overflow-hidden border-2 '>
-                   <img src={`https//gamegram.ga/api/images/postimages/${following.profilePic}`} alt="" />
+                   <img src={`https://gamegram.ga/api//images/postimages/${following.profilePic}`} alt="" />
                </div>
                <p className='text-main cursor-pointer' onClick={()=>{
                 modelControl(false)

@@ -12,13 +12,13 @@ const PostsAdmin = () => {
 
  const blockHandler = (userId) => {
   console.log();
-      axios.post('https//gamegram.ga/api/admin/blockhandler',{userId}).then((response)=>{  
+      axios.post('https://gamegram.ga/api//admin/blockhandler',{userId}).then((response)=>{  
           setRender(!render)   
       })
  }
   let fetchCurrentUser = (userId) => {
       console.log("currentISer",userId);
-      axios.get(`https//gamegram.ga/api/admin/getsingleuser/${userId}`).then((response)=>{
+      axios.get(`https://gamegram.ga/api//admin/getsingleuser/${userId}`).then((response)=>{
       setCurrentUser({...response.data})
       setShowModal(true)
       })
@@ -26,7 +26,7 @@ const PostsAdmin = () => {
 
 
   useEffect(()=>{
-axios.get('https//gamegram.ga/api/admin/getusers').then((response)=>{
+axios.get('https://gamegram.ga/api//admin/getusers').then((response)=>{
 let {data} = response
 setUsers([...data])
 })
