@@ -29,7 +29,7 @@ const Home = () => {
   // const []
 
   useEffect(() => {
-    socket.current = io.connect("http://localhost:5000")
+    socket.current = io.connect("https://gamegram.ga/api")
 
     socket.current.emit("addUser",{
       userId:localStorage.getItem('user')
@@ -51,7 +51,7 @@ const Home = () => {
         }else{
           console.log(each.userId.userId,"user id is diiff");
 
-          axios.get(`http://gamegram.ga/api/getuserprofile/${each.userId.userId}`).then((response)=>{
+          axios.get(`https//gamegram.ga/api/getuserprofile/${each.userId.userId}`).then((response)=>{
             console.log(response.data.response,"friedns online");
             setOnlineFriends([...onlineFriends,response.data.response])
           }
@@ -61,13 +61,13 @@ const Home = () => {
       })
 
 
-    axios.get(`http://gamegram.ga/api/getuserprofile/${localStorage.getItem('user')}`).then((response)=>{
+    axios.get(`https//gamegram.ga/api/getuserprofile/${localStorage.getItem('user')}`).then((response)=>{
     console.log('response',response.data.response);
     setUser({...response.data.response})
     }).catch((error)=>{
 
     })
-    axios.get("http://gamegram.ga/api/recieveFile").then((response)=>{
+    axios.get("https//gamegram.ga/api/recieveFile").then((response)=>{
       console.log(response.data,"userData");
       setPost([...response.data.post])
     }).catch((error)=>{
