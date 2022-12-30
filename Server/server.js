@@ -70,8 +70,8 @@ io.on("connection", (socket) => {
   });
 
 socket.on("sendMessage",({userId,receiverId,text})=>{
+  console.log(text,"live text");
      const user = getUser(receiverId)
-    
      io.to(user?.socketId).emit('getMessage',{
       userId,text
      })
@@ -117,8 +117,8 @@ app.use(session({
 
 
 
-app.use('/',userRoutes)
-app.use('/admin',adminRoutes)
+app.use('/api',userRoutes)
+app.use('/api/admin',adminRoutes)
 
 server.listen(5000,()=>{
     console.log("server running on port 5000");

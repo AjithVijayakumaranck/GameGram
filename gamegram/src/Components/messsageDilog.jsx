@@ -1,15 +1,17 @@
 import { Bars2Icon, FaceSmileIcon, PaperAirplaneIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import Messages from './Messages'
 
 const MessageBox = ({currentChat,messages,setMessages,currentUser,typingMessage,setTypingMessage,messageSubmitHandler}) => {
+    const scrollRef = useRef();
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     
     
 //     const messageSubmitHandler = () =>{
 //    console.log(typingMessage,"hello");
-//   axios.post('http://localhost:5000/addmessage',{
+//   axios.post('http://gamegram.ga/api/addmessage',{
 //     conversationId:currentChat._id,
 //     sender:currentUser,
 //     text:typingMessage
@@ -24,15 +26,20 @@ const MessageBox = ({currentChat,messages,setMessages,currentUser,typingMessage,
   useEffect(()=>{
     
     console.log(currentChat._id,"chat id");
-    axios.get(`http://localhost:5000/getmessages/${currentChat._id}`).then((response)=>{
+    axios.get(`http://gamegram.ga/api/getmessages/${currentChat._id}`).then((response)=>{
         console.log(response.data.allMessagges,"hell9o google");
         setMessages([...response.data.allMessagges]);
        })
 
   },[currentChat])
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className='bg-lightContrast w-full   justify-between top-0 left-0 right-0 relative z-10 '>
-                <div className='h-[3.5rem] bg-dark text-center z-10 fixed w-[32rem] z-11'>
+                <div className='h-[3.5rem] bg-dark text-center z-10  w-full z-11'>
                     <h1 className='text-xl flex items-center justify-center h-full'>
                         <div className='text-center w-full  relative '>
                             <p className=''>{currentChat.name}</p>
@@ -42,12 +49,15 @@ const MessageBox = ({currentChat,messages,setMessages,currentUser,typingMessage,
                         </div>
                     </h1>
                 </div>
-                <div className='flex flex-col justify-end h-[30rem] py-3 px-4  absolute z-9 overflow-auto bottom-0 w-full'>
+                <div className=' divScroll justify-end h-[33.5rem] py-3 px-4 absolute z-9 overflow-y-auto bottom-0 w-full'>
            {messages.map((message)=>{
         // console.log(message.sender,currentUser);
         // console.log(message.sender === currentUser,"each message");
         
-        return(<Messages message={message}  own={message.sender === currentUser} />)
+        return(
+            <div ref={scrollRef}>
+        <Messages message={message}  own={message.sender === currentUser} />
+        </div>)
       })}
       </div>
                 <div className='h-[3.5rem] bg-dark text-center absolute bottom-0  w-full'>

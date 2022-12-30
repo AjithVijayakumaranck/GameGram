@@ -4,6 +4,7 @@ import { Bars3Icon } from '@heroicons/react/24/solid'
 import axios from 'axios'
 import Conversation from './Conversation'
 import MessageBox from './messsageDilog'
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 const a = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,]
 
@@ -24,7 +25,7 @@ const ChatBox = ({ conversation,currentUser,currentChat,setCurrentChat,messages,
         console.log(search, "hello");
         const getChat = () => {
             console.log(search, "sea5rchg is here");
-            axios.get(`http://localhost:5000/getprof/${search}`).then((response) => {
+            axios.get(`http://gamegram.ga/api/getprof/${search}`).then((response) => {
             })
         }
         getChat()
@@ -32,15 +33,15 @@ const ChatBox = ({ conversation,currentUser,currentChat,setCurrentChat,messages,
 
     return (
         <div className='flex  w-[55rem] h-[37rem] bg-dark text-white overflow-hidden'>
-            <div className='min-w-[23rem] overflow-hidden'>
+            <div className='min-w-[15rem] overflow-hidden'>
                 <div className='w-full h-[5rem] flex justify-between items-center px-4 '>
                     <h2 className=' text-2xl font-medium'>Chats</h2>
-                    <input type="text" value={search} className='bg-secondary outline-none mx-3 text-sm py-1 px-3 w-full rounded-md' onChange={(e) => {
+                    {/* <input type="text" value={search} className='bg-secondary outline-none mx-3 text-sm py-1 px-3 w-full rounded-md' onChange={(e) => {
                         setSearch(e.target.value)
                     }} name="" id="" />
                     <MagnifyingGlassIcon onClick={(e) => {
                         searchHandler(e)
-                    }} className='w-8 text-main font-semibold cursor-pointer' />
+                    }} className='w-8 text-main font-semibold cursor-pointer' /> */}
                 </div>
                 <div className='h-[2rem] bg-secondary flex justify-center  px-[5rem] items-center' >
                     <h2 className=' text-sm font-medium'>general chat</h2>
@@ -52,7 +53,12 @@ const ChatBox = ({ conversation,currentUser,currentChat,setCurrentChat,messages,
 
                   
                        {
-                        conversation.map((conversate)=>{
+                       conversation.length==0 ?<p>No active conversation</p>:
+                       
+                        conversation[0].map((conversate)=>{
+                            console.log(conversation,"conversations");
+                            console.log(conversate,"each conver");
+                            console.log(conversation[0].length);
                             // console.log(currentUser,"current user");
                             return(
                          

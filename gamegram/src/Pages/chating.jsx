@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import ChatBox from '../Components/ChatBox'
 import Navbar from '../Components/navbar'
 import {io} from 'socket.io-client'
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 
 const Chatingwindow = () => {
@@ -16,43 +17,31 @@ const Chatingwindow = () => {
   const [currentUser,setCurrentUser]=useState('')
   const [arrivalmessge,setArrivalMessge]=useState(null)
   const user= localStorage.getItem('user')
+  const [state,setState]=useState(false)
 
 
- const getNewMessage = () => {
-   ;
 
-  //  socket.current.on("getMessage",(data) =>{
-  //   setArrivalMessge({
-  //     sender: data.userId,
-  //     text:data.text,
-  //     createdAt:Date.now()
-  //   })  
-  // })
- } 
-
-useEffect(()=>{
-    socket.current = io.connect("http://localhost:5000")
-    console.log("data.................");
-
-
-   socket.current.on("getMessage", (data) => {
-       console.log("INSIDE SOCKET.................");
-      setArrivalMessge({
-      sender: data.senderId,
-      text: data.text,
-      createdAt: Date.now(),
-    });
-  })
-    // getNewMessage()
-},[])
-  
 // useEffect(()=>{
-//  
-// },[typingMessage])
+//     socket.current = io.connect("http://localhost:5000")
+//     console.log("data.................");
+
+
+//    socket.current.on("getMessage", (data) => {
+//        console.log("INSIDE SOCKET.................");
+//       setArrivalMessge({
+//       sender: data.senderId,
+//       text: data.text,
+//       createdAt: Date.now(),
+//     });
+//   })
+//     // getNewMessage()
+// },[])
+  
 
 useEffect(()=>{
     socket.current = io.connect("http://localhost:5000")
     socket.current.on("getMessage",(data) =>{
+      console.log(data.text,"hello google liev text");
       setArrivalMessge({
         sender: data.userId,
         text:data.text,
@@ -68,7 +57,8 @@ useEffect(()=>{
   console.log("message arrived");
   console.log(messages,"message asdadadas");
   arrivalmessge && currentChat ?.member.includes(arrivalmessge.sender) && 
-  setMessages((prev)=>[...prev,arrivalmessge])
+   setMessages((prev) => [...prev,arrivalmessge]);
+  //  setState(!state)
 },[arrivalmessge,currentChat]);
 
 
@@ -86,8 +76,8 @@ useEffect(()=>{
 
     const getChats = async () => {
       setCurrentUser(user)
-       axios.get(`http://localhost:5000/getconversation/${user}`).then((response)=>{
-         console.log(response.data,"res datya");
+       axios.get(`http://gamegram.ga/api/getconversation/${user}`).then((response)=>{
+         console.log(response.data,"here is the conversations");
           setChats([...chat,response.data])
           console.log(chat,'cvharr');
        })
@@ -107,7 +97,7 @@ const messageSubmitHandler = () =>{
   console.log(typingMessage,"typee.................");
 
   console.log(typingMessage,"hello");
- axios.post('http://localhost:5000/addmessage',{
+ axios.post('http://gamegram.ga/api/addmessage',{
    conversationId:currentChat._id,
    sender:currentUser,
    text:typingMessage

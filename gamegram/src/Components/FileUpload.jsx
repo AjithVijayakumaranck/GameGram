@@ -3,6 +3,7 @@ import { FileUploadContext } from "../Contexts/fFileUploadContext";
 import { FileUpContext } from "../Contexts/FileUploadContext";
 import {PhotoIcon} from '@heroicons/react/24/solid'
 import axios from "axios";
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 export default function FileUpload({post,setPost}) {
   const {fileUploa} = useContext(FileUploadContext)
@@ -33,10 +34,10 @@ export default function FileUpload({post,setPost}) {
         data.append(key, file[key]) 
     }
     data.append("userToken",token)
-    axios.post("http://localhost:5000/uploadfile",data,{
+    axios.post("http://gamegram.ga/api/uploadfile",data,{
       headers: { 'Content-Type': 'multipart/form-data' }
   }).then(()=>{
-    axios.get("http://localhost:5000/recieveFile").then((response) => {
+    axios.get("http://gamegram.ga/api/recieveFile").then((response) => {
       setPost([...response.data.post])
       setShowModal(false)
       ModalHandler()
@@ -96,7 +97,7 @@ export default function FileUpload({post,setPost}) {
 
                  <div className="flex justify-center border-dashed border-[2px] border-white items-center  rounded-sm h-[5rem] mt-1">
                   <label htmlFor="uploadFile" className=" cursor-pointer  rounded-sm text-white " >Browse File to upload</label>
-                 <input type="file" id="uploadFile" onChange={uploadFile} className="hidden" />
+                 <input type="file" id="uploadFile" onChange={uploadFile} className="hidden"   accept="image/png,image/jpeg"/>
                  </div>
                 </div>
     <div className="px-5 py-3 pt-1 text-center">

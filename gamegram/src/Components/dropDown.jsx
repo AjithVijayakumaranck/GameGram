@@ -1,17 +1,19 @@
 import React from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-const menuArray = [
-    {
-     menuTitle:"Profile",
-     path:`/userprofile/${localStorage.getItem('user')}`
-    },
-    {
-     menuTitle:"EditProfile",
-     path:`/editprofile/${localStorage.getItem('user')}`
-    }
-]
+
 
 const Dropdown = (dropdown) => {
+    const user = localStorage.getItem('user')
+    const menuArray = [
+        {
+         menuTitle:"Profile",
+         path:`/userprofile/${user}`
+        },
+        {
+         menuTitle:"EditProfile",
+         path:`/editprofile/${user}`
+        }
+    ]
     console.log(dropdown);
     const navigate = useNavigate()
   return (

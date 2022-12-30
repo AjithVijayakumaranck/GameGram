@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { UserProfileContext } from '../Contexts/userContext'
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 
 const Login = () => {
+    const {Profile} = useContext(UserProfileContext)
+    const [profUser,setprofUser] = Profile
     const [invalidUser,setInvaliduser]=useState(false)
     const navigate=useNavigate()
     const [login,setLogin]= useState({
@@ -19,7 +23,7 @@ const Login = () => {
    const loginHandler = (e)=>{
     e.preventDefault()
     console.log("boom");
-    axios.post('http://localhost:5000/login',login).then((Response)=>{
+    axios.post('http://gamegram.ga/api/login',login).then((Response)=>{
         console.log("response is here",Response);
        if (Response.data.status){
         const { token,user } = Response.data
@@ -27,6 +31,7 @@ const Login = () => {
         localStorage.setItem( "token" , "Bearer " + token);
         localStorage.setItem('logged',true)
         localStorage.setItem('user',user._id)
+        setprofUser(user._id)
          navigate('/home')
        }else{
          setInvaliduser(true)

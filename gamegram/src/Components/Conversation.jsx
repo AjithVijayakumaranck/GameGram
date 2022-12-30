@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { format } from 'timeago.js';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => {
     const [user, setUser] = useState({})
@@ -10,9 +12,9 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
         console.log(conversation[0]?.member, "friend")
         let friendId
         
-    const getUser = async (friendId) => {
+       const getUser = async (friendId) => {
         console.log(friendId,"hello friend");
-        axios.get(`http://localhost:5000/getuserprofile/${friendId}`).then((response) => {
+        axios.get(`http://gamegram.ga/api/getuserprofile/${friendId}`).then((response) => {
             console.log(response.data.response, "heee hoooo")
             setUser({...user,...response.data.response})
         })
@@ -21,7 +23,8 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
 
         const friendUser = async () => {
             console.log(currentUser, "currenthhh");
-            friendId = await conversation[0]?.member.find((m) => m !== currentUser);
+            console.log(conversation,"conversation");
+            friendId = await conversation?.member.find((m) => m !== currentUser);
             getUser(friendId)
         }
         friendUser()
@@ -31,7 +34,7 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
   return (
     <div onClick={()=>{
         console.log(conversation,'hello');
-        setCurrentChat(...conversation)
+        setCurrentChat(conversation)
         console.log(currentChat,"current chatt");
     }}>
     <div className='flex  py-3 px-3 justify-between items-center w-full'>
@@ -46,9 +49,9 @@ const Conversation = ({conversation,currentUser,currentChat,setCurrentChat}) => 
     </div>
 
 
-    <div >
-        <h1 className='text-right text-[10px]'>
-            12.00am
+    <div className='w-full'>
+        <h1 className='text-right w-full text-[10px]'>
+            {format(user.updateeedAt)}
         </h1>
     </div>
 

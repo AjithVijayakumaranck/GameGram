@@ -5,7 +5,8 @@ import {io} from 'socket.io-client'
 import Stories from '../Components/stories'
 import axios from 'axios'
 
-import { Navigate } from 'react-router-dom'
+
+import { Navigate, useNavigate } from 'react-router-dom'
 import FileUpload from '../Components/FileUpload'
 import { FileUploadContext } from '../Contexts/fFileUploadContext'
 import { PlayCircleIcon } from '@heroicons/react/24/solid'
@@ -15,6 +16,9 @@ axios.defaults.headers.common['Authorization'] = token
 
 
 const Home = () => {
+  const [state,setState]= useState(false)
+  const [Notification,setNotification]= useState(false)
+  const nav = useNavigate()
   const [userId,setUserId]=useState('')
   const socket = useRef()
   const { fileUploa } = useContext(FileUploadContext)
@@ -22,7 +26,7 @@ const Home = () => {
   const [posts,setPost]=useState([])
   const [onlineFriends,setOnlineFriends] = useState([])
   const [user,setUser]= useState({})
-
+  // const []
 
   useEffect(() => {
     socket.current = io.connect("http://localhost:5000")
@@ -38,28 +42,32 @@ const Home = () => {
       socket.current.on("getusersAll", (data) => {
       console.log("INSIDE SOCKET.................");
       console.log(data.allUsers,"inside");
+ 
           data.allUsers.forEach(async(each)=>{
             console.log(each,"each user");
+ 
         if(each.userId.userId === localStorage.getItem('user')){
-      console.log("you are the one only online")
+           console.log("you are the one only online")
         }else{
           console.log(each.userId.userId,"user id is diiff");
-          axios.get(`http://localhost:5000/getuserprofile/${each.userId.userId}`).then((response)=>{
-          setOnlineFriends([...onlineFriends,response.data.response])
-          console.log(onlineFriends,"friedns online");
-          })
+
+          axios.get(`http://gamegram.ga/api/getuserprofile/${each.userId.userId}`).then((response)=>{
+            console.log(response.data.response,"friedns online");
+            setOnlineFriends([...onlineFriends,response.data.response])
+          }
+          )
         }
           });
       })
 
 
-    axios.get(`http://localhost:5000/getuserprofile/${localStorage.getItem('user')}`).then((response)=>{
+    axios.get(`http://gamegram.ga/api/getuserprofile/${localStorage.getItem('user')}`).then((response)=>{
     console.log('response',response.data.response);
     setUser({...response.data.response})
     }).catch((error)=>{
 
     })
-    axios.get("http://localhost:5000/recieveFile").then((response)=>{
+    axios.get("http://gamegram.ga/api/recieveFile").then((response)=>{
       console.log(response.data,"userData");
       setPost([...response.data.post])
     }).catch((error)=>{
@@ -112,7 +120,9 @@ const Home = () => {
 </div>
 
 <div className='flex justify-center pt-4'>
-<button className='text-dark bg-main px-2 rounded-md py-1 '>
+<button className='text-dark bg-main px-2 rounded-md py-1 ' onClick={()=>{
+  nav(`/userprofile/${localStorage.getItem('user')}`)
+}}>
   Go to Profile
 </button>
 </div>
@@ -133,6 +143,7 @@ const Home = () => {
         <p className='text-white py-2 w-[10rem] '>Friends Online</p>
  {
   onlineFriends.map((friend)=>{
+    console.log(friend,"friend");
 return(
   <div className='flex items-center'>
   <div className='w-[3rem] h-[3rem] rounded-full bg-dark border-2 border-main relative text-main'>

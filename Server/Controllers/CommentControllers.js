@@ -13,7 +13,7 @@ module.exports = {
     addComment: async (req, res, next) => {
         try {
             const { index, CurrentComment, postId, holderId } = req.body
-            console.log(holderId, "holder here");
+            console.log(holderId, "holder here    ..............");
             console.log(req.body, "hello comments");
             let SaveComment = new Comments({
                 comment: CurrentComment[1],

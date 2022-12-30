@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const VerificationOtp = () => {
     const navigate = useNavigate()
     let {mailid} =  useParams()
@@ -20,7 +21,7 @@ const VerificationOtp = () => {
 
    const submitHandler=(e)=>{
    e.preventDefault()
-   axios.post('http://localhost:5000/verifyOtp',{mailid,otp}).then((response)=>{
+   axios.post('http://gamegram.ga/api/verifyOtp',{mailid,otp}).then((response)=>{
    console.log(response.data);
 navigate('/')
    }).catch((error)=>{
@@ -33,6 +34,7 @@ navigate('/')
 <div className="flex jusify-center flex-col  shadow-2xl px-[6rem]   py-[6rem] rounded-md  ">
 <div className='text-white  '>
    <h2 className='text-2xl mb-3'>Enter your<span className='text-main'> OTP </span></h2>
+
             </div>
             <div>
             <form action=" " className='flex gap-3 text-white '>

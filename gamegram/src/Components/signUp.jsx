@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 
 const Signup = () => {
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
   const  navigate=useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [signup, setSignUp] = useState({
@@ -23,7 +24,7 @@ const Signup = () => {
 
     const signupHandler = (e) => {
         // e.preventDefault()
-        axios.post('http://localhost:5000/signup', signup).then((Response) => {
+        axios.post('http://gamegram.ga/api/signup', signup).then((Response) => {
             console.log(Response,"response is here");
             navigate(`/verificationotp/${signup.email}`)
         })

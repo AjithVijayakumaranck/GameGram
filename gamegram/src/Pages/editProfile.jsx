@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import EditProf from '../Components/EditProf'
 import Navbar from '../Components/navbar'
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 
 const EditProfile = () => {
@@ -16,7 +17,7 @@ const EditProfile = () => {
   useEffect(() => {
     console.log(id,"hello google");
     const userId = id
-    axios.get(`http://localhost:5000/getuserprofile/${userId}`).then((response)=>{
+    axios.get(`http://gamegram.ga/api/getuserprofile/${userId}`).then((response)=>{
       console.log(response.data);
       setUserDetails({...userDetails,...response.data.response})
       setuserPosts([...userPosts,...response.data.convertedPost])

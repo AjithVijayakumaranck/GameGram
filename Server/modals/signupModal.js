@@ -17,6 +17,9 @@ const signUpTemplate =  new mongoose.Schema({
     dateOfBirth:{
         type:String
     },
+    profilePic:{
+        type:String
+    },
     verified:{
         type:Boolean,
         default:false

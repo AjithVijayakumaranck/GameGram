@@ -6,22 +6,22 @@ import { useEffect } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 
 
-const token = localStorage.getItem("logged")
 
 
 
 const LoginPage = () => {
+  const token = localStorage.getItem("token")
 
   const Nav = useNavigate()
 
-  useEffect(() => {
-    if(token){
-      console.log('token is here');
-      Nav('/home')
-    }else{
-      Nav('/')
-    }
-  }, []);
+  // useEffect(() => {
+  //   if(token){
+  //     console.log('token is here');
+  //     Nav('/home')
+  //   }else{
+  //     Nav('/')
+  //   }
+  // }, []);
 
 
   return (

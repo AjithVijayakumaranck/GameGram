@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import FileUpload from "./Components/FileUpload";
 import ForgotPassword from "./Components/forgotPassword";
 import Navbar from "./Components/navbar";
+import PasswordReset from "./Components/PasswordReset";
 import VerificationOtp from "./Components/verificationOtp";
+import VerificationOtpForgot from "./Components/verificationOtpForgot";
 import AdminHome from "./Pages/AdminPages/AdminHome";
 import AdminLogin from "./Pages/AdminPages/adminLogin";
 import DashBoard from "./Pages/AdminPages/DashBoard";
@@ -25,7 +27,7 @@ const MainRoutes = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   const auth = () => {
-    axios.post("http://localhost:5000/isUserAuth").then((response) => {
+    axios.post("http://gamegram.ga/api/isUserAuth").then((response) => {
       setIsAuth(true);
     });
   };
@@ -45,7 +47,9 @@ const MainRoutes = () => {
      </Route>
           <Route exact path="/" element={ <Login />  } />
           <Route exact path="/verificationotp/:mailid" element={ <VerificationOtp />  } />
+          <Route exact path="/verificationotpforgot/:mailid" element={ <VerificationOtpForgot />  } />
           <Route exact path="/createaccount" element={<LoginSignup />} />
+          <Route exact path="/resetpassword/:userId" element={<PasswordReset />} />
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/message" element={<Chatingwindow />}></Route>
           <Route exact path="/adminlogin" element={<AdminLogin />}></Route>
