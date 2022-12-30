@@ -70,6 +70,10 @@ router.post('/isUserAuth',verifyToken,(req, res, next) => {
 })
 
 
+router.get('/test',(req,res)=>{
+    res.json("hello google")
+})
+
 router.get('/recieveFile',verifyToken,postControllers.setAllPosts)
 
 router.post("/uploadfile", upload.single('file'),postControllers.uploadPost)
