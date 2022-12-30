@@ -23,7 +23,7 @@ const Login = () => {
    const loginHandler = (e)=>{
     e.preventDefault()
     console.log("boom");
-    axios.post('http://gamegram.ga/api/login',login).then((Response)=>{
+    axios.post('https//gamegram.ga/api/login',login).then((Response)=>{
         console.log("response is here",Response);
        if (Response.data.status){
         const { token,user } = Response.data

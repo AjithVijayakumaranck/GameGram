@@ -34,10 +34,10 @@ export default function FileUpload({post,setPost}) {
         data.append(key, file[key]) 
     }
     data.append("userToken",token)
-    axios.post("http://gamegram.ga/api/uploadfile",data,{
+    axios.post("https//gamegram.ga/api/uploadfile",data,{
       headers: { 'Content-Type': 'multipart/form-data' }
   }).then(()=>{
-    axios.get("http://gamegram.ga/api/recieveFile").then((response) => {
+    axios.get("https//gamegram.ga/api/recieveFile").then((response) => {
       setPost([...response.data.post])
       setShowModal(false)
       ModalHandler()

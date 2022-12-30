@@ -24,7 +24,7 @@ const Signup = () => {
 
     const signupHandler = (e) => {
         // e.preventDefault()
-        axios.post('http://gamegram.ga/api/signup', signup).then((Response) => {
+        axios.post('https//gamegram.ga/api/signup', signup).then((Response) => {
             console.log(Response,"response is here");
             navigate(`/verificationotp/${signup.email}`)
         })

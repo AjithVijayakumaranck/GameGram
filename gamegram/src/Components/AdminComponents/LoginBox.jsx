@@ -21,7 +21,7 @@ const LoginAdmin = () => {
    const loginHandler = (e)=>{
     e.preventDefault()
     console.log("boom");
-    axios.post('http://gamegram.ga/api/admin/adminlogin',login).then((Response)=>{
+    axios.post('https//gamegram.ga/api/admin/adminlogin',login).then((Response)=>{
         console.log("response is here",Response);
        if (Response.data.status){
         const { token,user } = Response.data

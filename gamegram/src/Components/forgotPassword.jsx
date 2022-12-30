@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const [mail,setMail]=useState('')
   const checkAccount = () => {
     setSpinner(true)
-    axios.get(`http://gamegram.ga/api/forgotaccount/${mail}`).then((response)=>{
+    axios.get(`https//gamegram.ga/api/forgotaccount/${mail}`).then((response)=>{
       console.log(response.data.response.email);
       setSpinner(false)
       nav(`/verificationotpforgot/${response.data.response.email}`)

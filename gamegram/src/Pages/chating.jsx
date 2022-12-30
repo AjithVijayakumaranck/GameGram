@@ -39,7 +39,7 @@ const Chatingwindow = () => {
   
 
 useEffect(()=>{
-    socket.current = io.connect("http://localhost:5000")
+    socket.current = io.connect("https://gamegram.ga/api")
     socket.current.on("getMessage",(data) =>{
       console.log(data.text,"hello google liev text");
       setArrivalMessge({
@@ -76,7 +76,7 @@ useEffect(()=>{
 
     const getChats = async () => {
       setCurrentUser(user)
-       axios.get(`http://gamegram.ga/api/getconversation/${user}`).then((response)=>{
+       axios.get(`https//gamegram.ga/api/getconversation/${user}`).then((response)=>{
          console.log(response.data,"here is the conversations");
           setChats([...chat,response.data])
           console.log(chat,'cvharr');
@@ -97,7 +97,7 @@ const messageSubmitHandler = () =>{
   console.log(typingMessage,"typee.................");
 
   console.log(typingMessage,"hello");
- axios.post('http://gamegram.ga/api/addmessage',{
+ axios.post('https//gamegram.ga/api/addmessage',{
    conversationId:currentChat._id,
    sender:currentUser,
    text:typingMessage

@@ -8,7 +8,7 @@ const Notification = () => {
     const [notificationResult,setNotificationResult]=useState([])
   const navigate = useNavigate()
   useEffect(() => {
-  axios.get(`http://gamegram.ga/api/getNotification/${localStorage.getItem('user')}`).then((response=>{
+  axios.get(`https//gamegram.ga/api/getNotification/${localStorage.getItem('user')}`).then((response=>{
 console.log(response.data,"hello google ");
 setNotificationResult([...response.data])
   }))
@@ -37,7 +37,7 @@ setNotificationResult([...response.data])
           <p className='pl-3 cursor-pointer text-main' onClick={()=>{
          navigate(`/userprofile/${result.userId }`)
           }}>{result.username} <span className=' text-white  text-xs'>Liked your post</span></p>
-          <img src={`http://gamegram.ga/api/images/postimages/${result.post}`} className='w-12 mx-2 rounded-sm' alt="" />
+          <img src={`https//gamegram.ga/api/images/postimages/${result.post}`} className='w-12 mx-2 rounded-sm' alt="" />
         </div>
        )
       })

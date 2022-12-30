@@ -30,7 +30,7 @@ const Navbar = () => {
 
   const changeHandlerSearch = (e) => {
     setSearchString(e.target.value)
-    axios.get(`http://gamegram.ga/api/search/${searchString}`).then((Response)=>{
+    axios.get(`https//gamegram.ga/api/search/${searchString}`).then((Response)=>{
       console.log(...Response.data,"searchr ");
       setSearchResult([...Response.data])
 

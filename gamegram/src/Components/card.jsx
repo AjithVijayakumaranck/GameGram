@@ -21,7 +21,7 @@ const Card = ({ post, setPost }) => {
   console.log(post, "post is here");
   const [manageComment, setMannegeComment] = useState({ "": "" })
   const reciveFile = () => {
-    axios.get("http://gamegram.ga/api/recieveFile").then((response) => {
+    axios.get("https//gamegram.ga/api/recieveFile").then((response) => {
       console.log(response.data, "logoo ");
       setPost([...response.data.post])
     })
@@ -42,7 +42,7 @@ const Card = ({ post, setPost }) => {
 
   const commentDelete = (commentId, postId) => {
 
-    axios.post("http://gamegram.ga/api/deleteComment", { commentId, postId }).then((response) => {
+    axios.post("https//gamegram.ga/api/deleteComment", { commentId, postId }).then((response) => {
       toastSuccess()
       reciveFile()
     })
@@ -56,9 +56,9 @@ const Card = ({ post, setPost }) => {
       type: "Like",
       postId: postId
     }
-    axios.post(`http://gamegram.ga/api/handlelike/${postId}/${holderId}`).then(() => {
+    axios.post(`https//gamegram.ga/api/handlelike/${postId}/${holderId}`).then(() => {
   
-    axios.post("http://gamegram.ga/api/notification",usersDetails).then((res) => {
+    axios.post("https//gamegram.ga/api/notification",usersDetails).then((res) => {
       reciveFile()
     }).catch((err) => {
 
@@ -68,7 +68,7 @@ const Card = ({ post, setPost }) => {
   }
 
   const CommentlikeHandler = (commentId, userId) => {
-    axios.post('http://gamegram.ga/api/commentlikehandle', { commentId, userId }).then((response) => {
+    axios.post('https//gamegram.ga/api/commentlikehandle', { commentId, userId }).then((response) => {
       console.log(response.data);
       reciveFile()
     }).catch((error) => {
@@ -108,7 +108,7 @@ const Card = ({ post, setPost }) => {
       console.log(Object.entries(manageComment)[0], "single entry");
       let CurrentComment = Object.entries(manageComment)[0]
 
-      axios.post('http://gamegram.ga/api/managecomment', { CurrentComment, index, postId, holderId: localStorage.getItem('user') }).then((response) => {
+      axios.post('https//gamegram.ga/api/managecomment', { CurrentComment, index, postId, holderId: localStorage.getItem('user') }).then((response) => {
         console.log(
           "comment handler"
         );
@@ -207,7 +207,7 @@ const Card = ({ post, setPost }) => {
 
                 <div>
                   <div className='h-[2.5rem] w-[2.5rem]  bg-secondary rounded-full border-2 overflow-hidden border-main '>
-                  <img src={`http://gamegram.ga/api/images/postimages/${holder.profilePic}`} alt="" />
+                  <img src={`https//gamegram.ga/api/images/postimages/${holder.profilePic}`} alt="" />
                   </div>
                 </div>
 
@@ -256,7 +256,7 @@ const Card = ({ post, setPost }) => {
                     <div className=' flex items-center gap-3 pb-3' >
                       <div className='pb-1'>
                         <div className='w-[2rem] rounded-full border-main border-[1px] bg-secondary h-[2rem] overflow-hidden' >
-                        <img src={`http://gamegram.ga/api/images/postimages/${eachComment.Owner.profilePic}`} alt="" />
+                        <img src={`https//gamegram.ga/api/images/postimages/${eachComment.Owner.profilePic}`} alt="" />
                         </div>
                       </div>
                       <div className='w-full '><p className='text-white text-[10px]'><span className='text-main text-[15px] cursor-pointer' onClick={() => {
