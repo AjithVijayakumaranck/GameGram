@@ -40,7 +40,7 @@ const Chatingwindow = () => {
 
 useEffect(()=>{
     // socket.current = io.connect("https://gamegram.ga/api")
-    socket.current = io.connect("https://gamegram.ga/api",{path:"/socket/socket.io"});
+    socket.current = io.connect("https://gamegram.ga",{path:"/socket/socket.io"});
     socket.current.on("getMessage",(data) =>{
       console.log(data.text,"hello google liev text");
       setArrivalMessge({

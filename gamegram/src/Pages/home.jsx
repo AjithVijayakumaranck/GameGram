@@ -30,7 +30,7 @@ const Home = () => {
 
   useEffect(() => {
     // socket.current = io.connect("https://gamegram.ga/api")
-    socket.current = io.connect("https://gamegram.ga/api", { path: "/socket/socket.io" });
+    socket.current = io.connect("https://gamegram.ga", { path: "/socket/socket.io" });
 
     socket.current.emit("addUser", {
       userId: localStorage.getItem('user')
