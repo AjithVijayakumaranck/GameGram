@@ -7,6 +7,7 @@ import FileUpload from './FileUpload'
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 const EditProf = ({ userDetails,setFile,file}) => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
   let nav = useNavigate()
   let { id } = useParams()
   // const [currentUser,setCurrentUser]= useState(undefined)
@@ -23,8 +24,8 @@ const EditProf = ({ userDetails,setFile,file}) => {
       console.log(response.data, "edit data ");
       setUserDet({ ...userDet, ...response.data.response })
       setFile({...file,
-        file:`https://gamegram.ga/api/images/postimages/${response.data.response.profilePic}`,
-        fileUrl:`https://gamegram.ga/api/images/postimages/${response.data.response.profilePic}`})
+        file:PATH + response.data.response.profilePic,
+        fileUrl:PATH + response.data.response.profilePic})
     }).catch((err) => {
       console.log(err);
     })

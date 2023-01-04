@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Notification = () => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
     const [notificationResult,setNotificationResult]=useState([])
   const navigate = useNavigate()
   useEffect(() => {
@@ -37,7 +38,7 @@ setNotificationResult([...response.data])
           <p className='pl-3 cursor-pointer text-main' onClick={()=>{
          navigate(`/userprofile/${result.userId }`)
           }}>{result.username} <span className=' text-white  text-xs'>Liked your post</span></p>
-          <img src={`https://gamegram.ga/api/images/postimages/${result.post}`} className='w-12 mx-2 rounded-sm' alt="" />
+          <img src={PATH + result.post} className='w-12 mx-2 rounded-sm' alt="" />
         </div>
        )
       })

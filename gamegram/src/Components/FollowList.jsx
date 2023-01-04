@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const FollowList = ({result,modelControl}) => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
   const nav = useNavigate()
   return (
     <div className='absolute text-white left-[40%] top-[30%] bg-secondary rounded px-3  py-2 min-w-[300px]' >
@@ -20,7 +21,7 @@ const FollowList = ({result,modelControl}) => {
              <div className='flex py-2  my-1 rounded-lg px-2 items-center gap-3'>
                {/* <p>{result}</p> */}
                <div className='rounded-full border-main w-[3rem] h-[3rem] overflow-hidden border-2 '>
-                   <img src={`https://gamegram.ga/api/images/postimages/${following.profilePic}`} alt="" />
+                   <img src={PATH + following.profilePic} alt="" />
                </div>
                <p className='text-main cursor-pointer' onClick={()=>{
                 modelControl(false)

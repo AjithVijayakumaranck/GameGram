@@ -207,7 +207,7 @@ const Card = ({ post, setPost }) => {
 
                 <div>
                   <div className='h-[2.5rem] w-[2.5rem]  bg-secondary rounded-full border-2 overflow-hidden border-main '>
-                  <img src={`https://gamegram.ga/api/images/postimages/${holder.profilePic}`} alt="" />
+                  <img src={PATH + holder.profilePic} alt="" />
                   </div>
                 </div>
 
@@ -256,7 +256,7 @@ const Card = ({ post, setPost }) => {
                     <div className=' flex items-center gap-3 pb-3' >
                       <div className='pb-1'>
                         <div className='w-[2rem] rounded-full border-main border-[1px] bg-secondary h-[2rem] overflow-hidden' >
-                        <img src={`https://gamegram.ga/api/images/postimages/${eachComment.Owner.profilePic}`} alt="" />
+                        <img src={PATH + eachComment.Owner.profilePic} alt="" />
                         </div>
                       </div>
                       <div className='w-full '><p className='text-white text-[10px]'><span className='text-main text-[15px] cursor-pointer' onClick={() => {

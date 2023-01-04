@@ -45,9 +45,9 @@ export default function FileUpload({post,setPost}) {
      axios.get("https://gamegram.ga/api/recieveFile").then((response) => {
       console.log(response.data, "log is here ");
       setSpinner(false)
+      ModalHandler()
       setShowModal(false)
       setPost([...response.data.post])
-      ModalHandler()
     })
      console.log("success");
     }).catch((error)=>{

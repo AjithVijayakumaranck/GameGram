@@ -20,6 +20,7 @@ const ProfileDetails = ({ userDetails, setState, State,setFollow,setFollowers}) 
   // }
 
   const handleMessageButton = (user, currentUser) => {
+    const PATH = process.env.REACT_APP_PUBLIC_FOLDER
     console.log(user, currentUser);
     axios.post("https://gamegram.ga/api/createconversation", { senderId: currentUser, recieverId: user }).then(() => {
       Navigate('/message')
@@ -62,7 +63,7 @@ const ProfileDetails = ({ userDetails, setState, State,setFollow,setFollowers}) 
   return (
     <div className="header flex flex-col md:flex-row items-center md:justify-center pt-2 gap-10 mt-[2rem]">
       <div className='rounded-full w-[8rem] h-[8rem] md:w-[10rem] md:h-[10rem] bg-secondary border-2 overflow-hidden border-main flex items-center justify-center'>
-        <img src={`https://gamegram.ga/api/images/postimages/${userDetails.profilePic}`} alt="" />
+        <img src={PATH + userDetails.profilePic} alt="" />
 
       </div>
       <div className='flex flex-col justify-center'>
