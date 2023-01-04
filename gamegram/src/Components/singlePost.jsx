@@ -8,6 +8,7 @@ import { format } from 'timeago.js'
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 const SinglePost = ({ setSingleModal, currentPost, singlePostView }) => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
 
   const userId = localStorage.getItem('user')
 
@@ -49,7 +50,7 @@ const SinglePost = ({ setSingleModal, currentPost, singlePostView }) => {
       <div className='text-white w-[60rem] bg-secondary h-[30rem] flex shadow-xl'>
         <div className='w-1/2 '>
           <div className='w-full h-full flex justify-center items-center overflow-hidden '>
-            <img src={`https://gamegram.ga/api/images/postimages/${currentPost.Post}`} className='w-auto py-5' alt="Free unsplash image" />
+            <img src={PATH + currentPost.Post} className='w-auto py-5' alt="Free unsplash image" />
           </div>
         </div>
         <div className='w-1/2 bg-dark flex flex-col justify-between px-5 py-3'>

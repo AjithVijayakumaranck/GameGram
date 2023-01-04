@@ -11,10 +11,12 @@ const session = require('express-session')
 const http = require('http')
 const { Server } = require('socket.io')
 const { log } = require('console')
+const path = require('path')
 
 app.use(cors())
 app.use(express.json())
-app.use('/images',express.static('StaticFiles'))
+app.use('/api/images',express.static(path.join(__dirname,'StaticFiles/postImages')))
+// app.use('/api/images',express.static('StaticFiles'))
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
