@@ -16,6 +16,8 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 
 const Card = ({ post, setPost }) => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
+
   const { Profile } = useContext(UserProfileContext)
   const [profUser, setprofUser] = Profile
   console.log(post, "post is here");
@@ -48,22 +50,22 @@ const Card = ({ post, setPost }) => {
     })
   }
 
-  const likeHandler = (postId, holderId,holder) => {
-    console.log(holder,"hello holder");
+  const likeHandler = (postId, holderId, holder) => {
+    console.log(holder, "hello holder");
     let usersDetails = {
       userId: localStorage.getItem('user'),
-      receiverId:holder,
+      receiverId: holder,
       type: "Like",
       postId: postId
     }
     axios.post(`https://gamegram.ga/api/handlelike/${postId}/${holderId}`).then(() => {
-  
-    axios.post("https://gamegram.ga/api/notification",usersDetails).then((res) => {
-      reciveFile()
-    }).catch((err) => {
 
-    })
-  
+      axios.post("https://gamegram.ga/api/notification", usersDetails).then((res) => {
+        reciveFile()
+      }).catch((err) => {
+
+      })
+
     })
   }
 
@@ -161,7 +163,7 @@ const Card = ({ post, setPost }) => {
                         <div className=' flex items-center gap-3 pb-3' >
                           <div className='pb-1'>
                             <div className='w-[2rem] rounded-full border-main border-[1px] bg-secondary h-[2rem]' >
-                         
+
                             </div>
                           </div>
                           <div className='w-full '><p className='text-white text-[10px]'><span className='text-main text-[15px] cursor-pointer' onClick={() => {
@@ -207,7 +209,7 @@ const Card = ({ post, setPost }) => {
 
                 <div>
                   <div className='h-[2.5rem] w-[2.5rem]  bg-secondary rounded-full border-2 overflow-hidden border-main '>
-                  <img src={PATH + holder.profilePic} alt="" />
+                    <img src={PATH + holder.profilePic} alt="" />
                   </div>
                 </div>
 
@@ -231,7 +233,7 @@ const Card = ({ post, setPost }) => {
                 </div>
                 <div className='text-center'>
                   <HeartIcon className={`w-5 ${likes.includes(userId) ? 'text-main' : 'text-secondary stroke-main '} cursor-pointer`} onClick={() => {
-                    likeHandler(_id,userId,holder._id)
+                    likeHandler(_id, userId, holder._id)
                   }} />
                   <h5 className='text-white'>{likes.length}</h5>
                 </div>
@@ -256,7 +258,7 @@ const Card = ({ post, setPost }) => {
                     <div className=' flex items-center gap-3 pb-3' >
                       <div className='pb-1'>
                         <div className='w-[2rem] rounded-full border-main border-[1px] bg-secondary h-[2rem] overflow-hidden' >
-                        <img src={PATH + eachComment.Owner.profilePic} alt="" />
+                          <img src={PATH + eachComment.Owner.profilePic} alt="" />
                         </div>
                       </div>
                       <div className='w-full '><p className='text-white text-[10px]'><span className='text-main text-[15px] cursor-pointer' onClick={() => {
@@ -264,11 +266,11 @@ const Card = ({ post, setPost }) => {
                         profileHandler(eachComment.Owner)
                       }}>{eachComment.Owner.userName}</span> {eachComment.comment}</p>
 
-                  {
-                    eachComment.Owner._id==userId &&       <p className='text-main text-[8px] '>{format(eachComment.createdAt)} <span onClick={() => {
-                      commentDelete(eachComment._id, _id)
-                    }} className='text-slate-300 cursor-pointer'>delete</span></p>
-                  }
+                        {
+                          eachComment.Owner._id == userId && <p className='text-main text-[8px] '>{format(eachComment.createdAt)} <span onClick={() => {
+                            commentDelete(eachComment._id, _id)
+                          }} className='text-slate-300 cursor-pointer'>delete</span></p>
+                        }
                       </div>
                       <div className='text-center flex'>
 

@@ -7,6 +7,7 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 
 const ProfileDetails = ({ userDetails, setState, State,setFollow,setFollowers}) => {
+  const PATH = process.env.REACT_APP_PUBLIC_FOLDER
   const Navigate = useNavigate()
   const [currentUser, setCurrentUser] = useState(undefined)
 
@@ -20,7 +21,6 @@ const ProfileDetails = ({ userDetails, setState, State,setFollow,setFollowers}) 
   // }
 
   const handleMessageButton = (user, currentUser) => {
-    const PATH = process.env.REACT_APP_PUBLIC_FOLDER
     console.log(user, currentUser);
     axios.post("https://gamegram.ga/api/createconversation", { senderId: currentUser, recieverId: user }).then(() => {
       Navigate('/message')
