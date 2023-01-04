@@ -15,6 +15,7 @@ import Reports from "./Pages/AdminPages/Reports";
 import Users from "./Pages/AdminPages/Users";
 import Chatingwindow from "./Pages/chating";
 import EditProfile from "./Pages/editProfile";
+import Error from "./Pages/error";
 import Home from "./Pages/home";
 import Login from "./Pages/LoginPage";
 import LoginSignup from "./Pages/LoginSignup";
@@ -45,7 +46,9 @@ const MainRoutes = () => {
           <Route element={<Profile/>} path="/userprofile/:id"/>
           <Route element={<EditProfile/>} path="/editprofile/:id"/>
      </Route>
+  
           <Route exact path="/" element={ <Login />  } />
+          <Route exact path="*" element={ <Error />  } />
           <Route exact path="/verificationotp/:mailid" element={ <VerificationOtp />  } />
           <Route exact path="/verificationotpforgot/:mailid" element={ <VerificationOtpForgot />  } />
           <Route exact path="/createaccount" element={<LoginSignup />} />

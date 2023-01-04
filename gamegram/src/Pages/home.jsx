@@ -16,6 +16,7 @@ axios.defaults.headers.common['Authorization'] = token
 
 
 const Home = () => {
+ 
   const [state, setState] = useState(false)
   const [Notification, setNotification] = useState(false)
   const nav = useNavigate()
@@ -79,7 +80,7 @@ const Home = () => {
     return () => {
 
     };
-  }, [])
+  }, [showModal])
 
 
 
